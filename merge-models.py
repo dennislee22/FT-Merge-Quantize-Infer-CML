@@ -4,10 +4,12 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, LlamaTokenizer, St
 
 torch.cuda.empty_cache()
 
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
+
 model_name = "tiiuae/falcon-7b"
 adapters_name = "dlee-falcon-7b-fine-tuned/checkpoint-439"
 
-print(f"Starting to load the model {model_name} into memory")
+print(f"Load the model {model_name} into " + device + " memory")
 
 m = AutoModelForCausalLM.from_pretrained(
     model_name,
@@ -22,9 +24,7 @@ tok.bos_token_id = 1
 
 stop_token_ids = [0]
 
-print(f"Successfully loaded the model {model_name} into memory")
-
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
+print(f"Successfully loaded the model {model_name} into " + device + " memory")
 
 prompt = "Today was an amazing day because"
 inputs = tok(prompt, return_tensors="pt").to(device)
