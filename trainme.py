@@ -4,6 +4,10 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import transformers
+import os
+
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 from datasets import load_dataset
 from peft import (
     LoraConfig,
@@ -18,10 +22,9 @@ from transformers import (
     BitsAndBytesConfig,
 )
 
-import os
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
 model_id = "tiiuae/falcon-7b"
+
+OUTPUT_DIR="dlee-falcon-7b-fine-tuned"
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -39,7 +42,6 @@ model =AutoModelForCausalLM.from_pretrained(
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 tokenizer.pad_token = tokenizer.eos_token
-
 tokenizer.deprecation_warnings["Asking-to-pad-a-fast-tokenizer"] = True
 
 model = prepare_model_for_kbit_training(model)
@@ -78,7 +80,7 @@ training_args = transformers.TrainingArguments(
     bf16=True,
     save_total_limit=4,
     logging_steps=10,
-    output_dir="dlee-falcon-7b-fine-tuned",
+    output_dir=OUTPUT_DIR,
     save_strategy='epoch',
 )
 
