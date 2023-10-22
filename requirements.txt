@@ -1,0 +1,12 @@
+bitsandbytes
+transformers
+datasets
+accelerate
+loralib
+einops
+xformers
+peft
+scipy
+sentencepiece
+nvitop
+
