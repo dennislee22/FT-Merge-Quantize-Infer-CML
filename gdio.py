@@ -47,7 +47,7 @@ def generate_response(input_text):
         return response_text
 
 def create_ui():
-    gr.HTML("<h1>Chatbox using Fine-tuned Falcon 7B Model with Custom Dataset ... on CML</h1>")
+    gr.HTML("<h1>Chatbox using Fine-tuned Falcon 7B Model with Custom Dataset</h1>")
     with gr.Tab("AI Text Generator"):
         with gr.Row():
             with gr.Column():
@@ -79,4 +79,4 @@ flush_gpu_memory()
 with gr.Blocks(title="My Chatbox", theme=theme) as demo:
     create_ui()
 demo.queue()
-demo.launch(share=True)
+demo.launch(server_name="127.0.0.1", server_port=8090)
