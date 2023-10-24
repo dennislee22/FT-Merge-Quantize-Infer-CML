@@ -1,6 +1,7 @@
 import gradio as gr
 import torch
 import transformers
+import time
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 # Initialize a global variable to store the Gradio interface
