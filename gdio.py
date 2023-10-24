@@ -22,13 +22,13 @@ def load_model(model_name):
         return
     else:   
         if selected_model != []:
-                yield f"Selected model is `{selected_model}`"
-                time.sleep(2)
-                yield f"Loading `{selected_model}`... into {device}"
-                tokenizer = AutoTokenizer.from_pretrained(model_name,torch_dtype=torch.bfloat16,device_map="auto")
-                model = AutoModelForCausalLM.from_pretrained(model_name,torch_dtype=torch.bfloat16,device_map="auto")
-                loaded_models[model_name] = {"tokenizer": tokenizer, "model": model}
-                yield f"Successfully loaded `{selected_model}` into {device}."
+            yield f"Selected model is `{selected_model}`"
+            time.sleep(2)
+            yield f"Loading `{selected_model}`... into {device}"
+            tokenizer = AutoTokenizer.from_pretrained(model_name,torch_dtype=torch.bfloat16,device_map="auto")
+            model = AutoModelForCausalLM.from_pretrained(model_name,torch_dtype=torch.bfloat16,device_map="auto")
+            loaded_models[model_name] = {"tokenizer": tokenizer, "model": model}
+            yield f"Successfully loaded `{selected_model}` into {device}."
         else:
             yield f"Failed to load model `{selected_model}`. Please select the model and press Reload Model button "
 
@@ -36,7 +36,7 @@ def generate_response(input_text, _):
     return _generate_response(input_text)
 
 def generate_response(input_text):
-        if selected_model == None:
+        if selected_model == None or selected_model == []:
             return "Model not loaded. Select a model in the dropdown menu and click the 'Reload Model' button to load a model."
         if not input_text:
             return "Please enter some text in the input field before submitting."
@@ -67,7 +67,11 @@ def create_ui():
                         outputs="text",
                         allow_flagging="never",
                         title="LLM Chatbox",
-                        description="Enter a message to chat with the loaded model.",    
+                        description="Enter a message to chat with the loaded model.",
+                        examples=[
+        ["I am happy"],
+        ["I am sad"],
+                        ],    
                         )
 theme = gr.themes.Soft()
 theme.css = """
