@@ -30,7 +30,7 @@ def load_model(model_name):
             loaded_models[model_name] = {"tokenizer": tokenizer, "model": model}
             yield f"Successfully loaded `{selected_model}` into {device}."
         else:
-            yield f"Failed to load model `{selected_model}`. Please select the model and press Reload Model button "
+            yield f"Failed to load model `{selected_model}`. Please select a model and press Reload Model button."
 
 def generate_response(input_text, _):
     return _generate_response(input_text)
