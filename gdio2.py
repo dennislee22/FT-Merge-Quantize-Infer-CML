@@ -134,5 +134,6 @@ mytheme = gr.themes.Soft().set(
 flush_gpu_memory()
 with gr.Blocks(theme=mytheme) as demo:
     create_ui()
-demo.queue()    
-demo.launch(share=True)
+demo.queue() 
+
+demo.launch(server_name="127.0.0.1", server_port=8090)
