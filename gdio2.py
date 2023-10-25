@@ -17,6 +17,7 @@ def flush_gpu_memory():
     torch.cuda.empty_cache()
 
 def load_model(model_name):
+    flush_gpu_memory()
     global selected_model  # Access the selected_model variable
     selected_model = model_name
     if selected_model == None:
