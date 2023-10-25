@@ -48,7 +48,7 @@ def generate_response(input_text):
         model = loaded_models[selected_model]["model"]
         input_ids = tokenizer.encode(input_text, return_tensors="pt").to(device)
         response = model.generate(input_ids, max_length=100, num_return_sequences=1, no_repeat_ngram_size=2)
-        response_text = tokenizer.decode(response[0], skip_special_tokens=True)
+        response_text = tokenizer.decode(response[0], skip_special_tokens=True).replace(input_text, "").strip() #.replace removes the input text from the generated output
         return response_text
     
 def run_os_command_nvidia_smi():
@@ -106,7 +106,7 @@ def create_ui():
                     with gr.Column():
                         gpuinfo = gr.HTML(lambda: run_os_command_nvidia_smi())
                         reload_button.click(run_os_command_nvidia_smi, outputs=gpuinfo)
-                        gpu_button = gr.Button("Refresh GPU info", variant="secondary")
+                        gpu_button = gr.Button("Refresh GPU Status", variant="secondary")
                         gpu_button.click(run_os_command_nvidia_smi, outputs=gpuinfo)
                         max_output_length = 100
                         with gr.Row():
