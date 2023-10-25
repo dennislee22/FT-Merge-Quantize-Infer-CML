@@ -123,7 +123,6 @@ def create_ui():
                                     ["I am happy"],
                                     ["I am sad"],
                                     ],
-                                    live=True,   
                                     )
                                     
 
