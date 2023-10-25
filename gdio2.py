@@ -49,27 +49,6 @@ def generate_response(input_text):
         response = model.generate(input_ids, max_length=100, num_return_sequences=1, no_repeat_ngram_size=2)
         response_text = tokenizer.decode(response[0], skip_special_tokens=True)
         return response_text
-
-def gpuinfo():
-    command = "nvidia-smi --query-gpu=memory.used,memory.total --format=csv"
-    try:
-        process = subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True
-        )
-        output_lines = process.stdout.read().splitlines()
-        
-        # Find the maximum length of the first column (memory.used)
-        max_length = max(len(line.split(",")[0]) for line in output_lines)
-        
-        # Format the output with aligned columns
-        formatted_output = [f"{line.split(',')[0]:<{max_length}}\t{line.split(',')[1]}" for line in output_lines]
-        return "<br>".join(formatted_output)
-    except subprocess.CalledProcessError as e:
-        return f"Error running command: {e}"
     
 def run_os_command_nvidia_smi():
     current_time = datetime.datetime.now(pytz.timezone('Asia/Singapore')).strftime("%Y-%m-%d %H:%M:%S %Z")  
@@ -111,7 +90,7 @@ def run_os_command_nvidia_smi():
     result_html += table_html
 
     return result_html
-
+    
 def create_ui():
     gr.HTML("<h2>TextAI using Fine-tuned Falcon 7B Model with Custom Dataset</h2>")
     with gr.Tab("AI Text Generator"):
@@ -120,19 +99,17 @@ def create_ui():
                 model_selected = gr.Dropdown(choices=["falcon-7b", "dlee-falcon-7b-fine-tuned"], label='Select a GenAI Model')        
                 reload_button = gr.Button("Reload Model", variant="secondary")
                 status_message = gr.Label(label="Model Status")
-                inp = model_selected
-
-                gr.HTML(lambda: run_os_command_nvidia_smi())
-                
-                reload_button.click(flush_gpu_memory).then(load_model, inputs=inp, outputs=status_message)
-                
+                inp = model_selected   
+                reload_button.click(load_model, inputs=inp, outputs=status_message)
                 with gr.Row():
                     with gr.Column():
-                        #placeholder
+                        gpuinfo = gr.HTML(lambda: run_os_command_nvidia_smi())
+                        reload_button.click(run_os_command_nvidia_smi, outputs=gpuinfo)
+
                         with gr.Row():
                                 with gr.Column():
-                                    global iface  
-                                    iface = gr.Interface(
+                                    global iface2  
+                                    iface2 = gr.Interface(
                                     fn=generate_response,
                                     inputs="text",  
                                     outputs="text",
@@ -156,5 +133,5 @@ mytheme = gr.themes.Soft().set(
 flush_gpu_memory()
 with gr.Blocks(theme=mytheme) as demo:
     create_ui()
-demo.queue()
+demo.queue()    
 demo.launch(share=True)
