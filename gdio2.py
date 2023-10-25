@@ -106,7 +106,8 @@ def create_ui():
                     with gr.Column():
                         gpuinfo = gr.HTML(lambda: run_os_command_nvidia_smi())
                         reload_button.click(run_os_command_nvidia_smi, outputs=gpuinfo)
-
+                        gpu_button = gr.Button("Refresh GPU info", variant="secondary")
+                        gpu_button.click(run_os_command_nvidia_smi, outputs=gpuinfo)
                         with gr.Row():
                                 with gr.Column():
                                     global iface2  
