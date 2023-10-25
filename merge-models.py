@@ -5,30 +5,29 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, LlamaTokenizer, St
 torch.cuda.empty_cache()
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
+output_dir = "dlee-falcon-7b-fine-tuned3"
+base_model = "tiiuae/falcon-7b"
+adapters_name = "dlee-falcon-7b-fine-tuned2/checkpoint-4653"
 
-model_name = "tiiuae/falcon-7b"
-adapters_name = "dlee-falcon-7b-fine-tuned/checkpoint-439"
-
-print(f"Load the model {model_name} into " + device + " memory")
+print(f"Load the model {base_model} into " + device + " memory")
 
 m = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    #load_in_4bit=True,
+    base_model,
     torch_dtype=torch.bfloat16,
-    device_map={"": 0}
+    device_map="auto"
 )
 m = PeftModel.from_pretrained(m, adapters_name)
 m = m.merge_and_unload()
-tok = AutoTokenizer.from_pretrained(model_name)
-tok.bos_token_id = 1
+m.save_pretrained(output_dir) 
+tokenizer = AutoTokenizer.from_pretrained(base_model)
+tokenizer.save_pretrained(output_dir) 
 
-stop_token_ids = [0]
+print(f"Successfully loaded the model {base_model} into " + device + " memory")
 
-print(f"Successfully loaded the model {model_name} into " + device + " memory")
-
-prompt = "Today was an amazing day because"
-inputs = tok(prompt, return_tensors="pt").to(device)
+print(f"Test the new model")
+prompt = "Generate a Python program that adds two then doubles the result."
+inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
 outputs = m.generate(**inputs, do_sample=True, num_beams=1, max_new_tokens=100)
 
-tok.batch_decode(outputs, skip_special_tokens=True)
+tokenizer.batch_decode(outputs, skip_special_tokens=True)
