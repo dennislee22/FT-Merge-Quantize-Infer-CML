@@ -22,7 +22,7 @@ m.save_pretrained(output_dir)
 tokenizer = AutoTokenizer.from_pretrained(base_model)
 tokenizer.save_pretrained(output_dir) 
 
-print(f"Successfully loaded the model {base_model} into " + device + " memory")
+print(f"Successfully merged and loaded the model into " + device + " memory")
 
 print(f"Test the new model")
 prompt = "Generate a Python program that adds two then doubles the result."
