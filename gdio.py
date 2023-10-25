@@ -1,3 +1,5 @@
+import gradio as gr
+import torch
 import transformers
 import time
 import subprocess
@@ -11,7 +13,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 selected_model = None
 model1 = "falcon-7b"
 model2 = "dlee-falcon-7b-fine-tuned3"
-
 def flush_gpu_memory():
     tokenizer = model = None
     torch.cuda.empty_cache()
@@ -47,7 +48,8 @@ def generate_response(input_text):
         tokenizer = loaded_models[selected_model]["tokenizer"]
         model = loaded_models[selected_model]["model"]
         input_ids = tokenizer.encode(input_text, return_tensors="pt").to(device)
-        response = model.generate(input_ids, max_length=100, num_return_sequences=1, no_repeat_ngram_size=2)
+        attention_mask = torch.ones(input_ids.shape, dtype=torch.long).to(device)
+        response = model.generate(input_ids, max_length=200, num_return_sequences=1, no_repeat_ngram_size=2,attention_mask=attention_mask)
         response_text = tokenizer.decode(response[0], skip_special_tokens=True).replace(input_text, "").strip() #.replace removes the input text from the generated output
         return response_text
     
@@ -97,7 +99,7 @@ def create_ui():
     with gr.Tab("AI Text Generator"):
         with gr.Row():
             with gr.Column():
-                model_selected = gr.Dropdown(choices=[model1, model2], label='Select a GenAI Model')        
+                model_selected = gr.Dropdown(choices=[model1,model2], label='Select a GenAI Model')        
                 reload_button = gr.Button("Reload Model", variant="secondary")
                 status_message = gr.Label(label="Model Status")
                 inp = model_selected   
@@ -108,7 +110,6 @@ def create_ui():
                         reload_button.click(run_os_command_nvidia_smi, outputs=gpuinfo)
                         gpu_button = gr.Button("Refresh GPU Status", variant="secondary")
                         gpu_button.click(run_os_command_nvidia_smi, outputs=gpuinfo)
-                        max_output_length = 100
                         with gr.Row():
                                 with gr.Column():
                                     global iface2  
@@ -120,9 +121,9 @@ def create_ui():
                                     title="Test the Loaded Model:",
                                     #description="Enter a message to chat with the loaded model.",
                                     examples=[
-                                    ["I am happy"],
-                                    ["I am sad"],
-                                    ],
+                                    ["How are you?"],
+                                    [""],
+                                    ],    
                                     )
                                     
 
@@ -138,4 +139,5 @@ flush_gpu_memory()
 with gr.Blocks(theme=mytheme) as demo:
     create_ui()
 demo.queue()
+
 demo.launch(server_name="127.0.0.1", server_port=8090)
