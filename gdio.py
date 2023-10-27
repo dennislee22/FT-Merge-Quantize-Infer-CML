@@ -148,5 +148,9 @@ mytheme = gr.themes.Soft().set(
 
 with gr.Blocks(theme=mytheme) as demo:
     create_ui()
-demo.queue()
-demo.launch(server_name="127.0.0.1", server_port=8090)
+
+demo.launch(server_port=int(os.getenv('CDSW_APP_PORT')),
+           enable_queue=True,
+           show_error=True,
+           server_name='127.0.0.1',
+)
