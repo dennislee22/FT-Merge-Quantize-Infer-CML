@@ -13,11 +13,11 @@ loaded_models = {}
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 selected_model = None
 model1 = "codegen-350M-multi"
-model2 = "merged"
+model2 = "fine-tuned_model"
 
 def flush_gpu_memory():
     torch.cuda.empty_cache()
-    tokenizer = model = None
+    tokenizer = model = None 
 
 def load_model(model_name):
     flush_gpu_memory()
@@ -45,10 +45,10 @@ def generate_response(input_text, _):
 def generate_response(input_text):
         prompt = f"""
         # Instruction:
-        Use the Task below to write the Response
-        # Task:
+        Use the context below to produce the result
+        # context:
         {input_text}
-        # Response:
+        # result:
         """
         if selected_model == None or selected_model == []:
             return "Model not loaded. Select a model in the dropdown menu and click the 'Reload Model' button to load a model."
@@ -61,7 +61,7 @@ def generate_response(input_text):
         attention_mask = torch.ones(input_ids.shape, dtype=torch.long).to(device)
         #response = model.generate(input_ids, max_length=200, num_return_sequences=1, no_repeat_ngram_size=2,attention_mask=attention_mask)
         #response_text = tokenizer.decode(response[0], skip_special_tokens=True).replace(input_text, "").strip() #.replace removes the input text from the generated output
-        response = model.generate(input_ids, max_new_tokens=500, do_sample=True, top_p=0.9,temperature=0.5,attention_mask=attention_mask)
+        response = model.generate(input_ids, max_length=100, max_new_tokens=200, do_sample=True, top_p=0.9,temperature=0.5,attention_mask=attention_mask)
         response_text = tokenizer.decode(response[0], skip_special_tokens=True).replace(prompt, "").strip() #.replace removes the input text from the generated output
         return response_text
     
@@ -132,12 +132,11 @@ def create_ui():
                                 title="Test the Loaded Model:",
                                 #description="Enter a message to chat with the loaded model.",
                                 examples=[
-                                ["CREATE TABLE station (city VARCHAR, lat INTEGER), List all the cities in a decreasing order of each city's stations' highest latitude."],
-                                ["CREATE TABLE weather (date VARCHAR, cloud_cover VARCHAR), What are the dates that had the top 5 cloud cover rates? Also tell me the cloud cover rate."],
-                                ["CREATE TABLE trip (start_station_name VARCHAR, duration INTEGER), List all the distinct stations from which a trip of duration below 100 started."],
+                                ["CREATE TABLE book (Title VARCHAR, Writer VARCHAR), What are the titles of the books whose writer is not Dennis Lee?"],
+                                ["CREATE TABLE trip (bus_stop VARCHAR, duration INTEGER), List all the bus stops from which a trip of duration below 100 started."],
+                                ["def hello_world():"],
                                 ],    
-                                )
-                                    
+                                )          
 
 mytheme = gr.themes.Soft().set(
     button_secondary_background_fill="#ade6d8",
