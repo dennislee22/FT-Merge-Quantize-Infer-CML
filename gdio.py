@@ -5,6 +5,7 @@ import time
 import subprocess
 import datetime
 import pytz
+import os
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
