@@ -5,7 +5,6 @@ import time
 import subprocess
 import datetime
 import pytz
-import os
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -62,7 +61,7 @@ def generate_response(input_text):
         attention_mask = torch.ones(input_ids.shape, dtype=torch.long).to(device)
         #response = model.generate(input_ids, max_length=200, num_return_sequences=1, no_repeat_ngram_size=2,attention_mask=attention_mask)
         #response_text = tokenizer.decode(response[0], skip_special_tokens=True).replace(input_text, "").strip() #.replace removes the input text from the generated output
-        response = model.generate(input_ids, max_length=100, max_new_tokens=200, do_sample=True, top_p=0.9,temperature=0.5,attention_mask=attention_mask)
+        response = model.generate(input_ids, max_new_tokens=200, do_sample=True, top_p=0.9,temperature=0.5,attention_mask=attention_mask)
         response_text = tokenizer.decode(response[0], skip_special_tokens=True).replace(prompt, "").strip() #.replace removes the input text from the generated output
         return response_text
     
