@@ -13,7 +13,7 @@ loaded_models = {}
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 selected_model = None
 model1 = "codegen-350M-multi"
-model2 = "fine-tuned_model"
+model2 = "merged_ft_model"
 
 def flush_gpu_memory():
     torch.cuda.empty_cache()
@@ -106,7 +106,7 @@ def run_os_command_nvidia_smi():
 
     
 def create_ui():
-    gr.HTML(f"<h3>TextAI using Fine-tuned '{model1}' Model with Custom Dataset</h3>")
+    gr.HTML(f"<h1>TextAI using Fine-tuned '{model1}' Model with Custom Dataset</h1>")
     with gr.Tab("AI Text Generator"):
         with gr.Row():
             with gr.Column():
@@ -132,8 +132,8 @@ def create_ui():
                                 title="Test the Loaded Model:",
                                 #description="Enter a message to chat with the loaded model.",
                                 examples=[
-                                ["CREATE TABLE book (Title VARCHAR, Writer VARCHAR), What are the titles of the books whose writer is not Dennis Lee?"],
-                                ["CREATE TABLE trip (bus_stop VARCHAR, duration INTEGER), List all the bus stops from which a trip of duration below 100 started."],
+                                ["CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?"],
+                                ["CREATE TABLE trip (bus_stop VARCHAR, duration INTEGER). List all the bus stops from which a trip of duration below 100 started."],
                                 ["def hello_world():"],
                                 ],    
                                 )          
