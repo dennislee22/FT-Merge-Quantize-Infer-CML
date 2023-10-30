@@ -1,6 +1,1 @@
-Create TextAI Model using 🤗 TRL with Custom Dataset, on CML
 
-Consider a scenario where the managers need a quick overview of the company's financial status. To obtain this information, they consult an accountant who, in turn, relies on a data engineer to extract data from multiple databases. This process is time-consuming, especially when dealing with many similar requests for different financial insights. Alternatively, picture a hypothetical situation where a bank's portal allows customers to ask questions in plain language, such as "How much do I still owe the bank next month if I pay off $10k of my debt next week?" and instantly receive a concise answer. These once 'unconceivable' scenarios are now made possible by text-generation AI, which translates natural language into complex SQL queries, providing immediate results. 
-The potential of LLM knows no bounds!
-In this article, I will describe the complete procedure for developing a language-to-SQL model in an air-gapped environment, all without relying on APIs. The method involves refining a LLM model with the Text-to-SQL dataset, leveraging CML (Cloudera Machine Learning) on the K8s platform. The motion graphic below demonstrates the end result, highlighting the language-to-SQL functionality achieved through a fine-tuned model.
-Ingredients:
