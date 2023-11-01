@@ -51,36 +51,105 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 ### <a name="toc_3"></a>2. Preparation
 
-
-### <a name="toc_3"></a>3. bigscience/bloom-1b1
-
-#### <a name="toc_3"></a>3.1. Fine-Tune & Merge
-This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
-
-## <a name="toc_4"></a>3.2. Quantize
-
-
-## <a name="toc_4"></a>3.2. Inference
-
-
-Objective
-----
-
-
-Preparation
-----
 1. Install the Python libraries
 
 ```shell
 pip -r -U requirements.txt
 ```
 
-- The quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset]([https://nodejs.org/en/](https://huggingface.co/datasets/c4)) is utilized. It is a large-scale, multilingual collection of web text gathered from the Common Crawl project. A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
-
-<img width="1235" alt="image" src="https://github.com/dennislee22/Quantization-LLM/assets/35444414/3f8eb810-1ec4-4b78-af99-e918d6ebb9c5">
+- The quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. It is a large-scale, multilingual collection of web text gathered from the Common Crawl project. A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
 
 
-C4 (Colossal Clean Crawled Corpus) dataset to generate our samples. The C4 dataset is a large-scale, multilingual collection of web text gathered from the Common Crawl project.
+### <a name="toc_3"></a>3. bigscience/bloom-1b1
+
+#### <a name="toc_3"></a>3.1. Fine-Tune & Merge
+
+#### <a name="toc_4"></a>3.2. Quantize
+
+
+#### <a name="toc_4"></a>3.2. Inference
+
+### <a name="toc_3"></a>6. tiiuae/falcon-7b
+
+#### <a name="toc_3"></a>6.1. Fine-Tune & Merge
+
+#### <a name="toc_4"></a>6.2. Quantize
+
+
+```
+quantization_config = GPTQConfig(bits=8, dataset = "c4", tokenizer=tokenizer, disable_exllama=True)
+```
+
+```
+Total Seconds Taken to Quantize Using cuda:0: 1384.6443202495575
+```
+
+```
+$ ls -lh gptq-merged_falcon-7b_8bit
+total 6.9G
+-rw-r--r--. 1 cdsw cdsw 1.7K Nov  1 06:54 config.json
+-rw-r--r--. 1 cdsw cdsw  118 Nov  1 06:54 generation_config.json
+-rw-r--r--. 1 cdsw cdsw 4.7G Nov  1 06:54 pytorch_model-00001-of-00002.bin
+-rw-r--r--. 1 cdsw cdsw 2.3G Nov  1 06:54 pytorch_model-00002-of-00002.bin
+-rw-r--r--. 1 cdsw cdsw  61K Nov  1 06:54 pytorch_model.bin.index.json
+-rw-r--r--. 1 cdsw cdsw  541 Nov  1 06:54 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw 2.6K Nov  1 06:54 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw 2.7M Nov  1 06:54 tokenizer.json
+```
+
+```
+$ ls -lh gptq-merged_falcon-7b_4bit
+total 3.8G
+-rw-r--r--. 1 cdsw cdsw 1.7K Nov  1 05:42 config.json
+-rw-r--r--. 1 cdsw cdsw  118 Nov  1 05:42 generation_config.json
+-rw-r--r--. 1 cdsw cdsw 3.8G Nov  1 05:42 pytorch_model.bin
+-rw-r--r--. 1 cdsw cdsw  541 Nov  1 05:42 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw 2.6K Nov  1 05:42 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw 2.7M Nov  1 05:42 tokenizer.json
+```
+
+
+
+#### <a name="toc_4"></a>6.2. Inference
+
+8-bit Parameter Precision Info:
+```
+cuda:0 Memory Footprint: 7038.3259 MB
+Total parameters: 295.7690 M
+Trainable parameters: 295.7690 M
+
+Data types:
+torch.float16, 295.7690 M, 100.00 %
+```
+
+8-bit gpustat:
+```
+[0] NVIDIA A100-PCIE-40GB | 29°C,   0 % |  8097 / 40960 MB |
+```
+8-bit config.json:
+```
+  "quantization_config": {
+    "batch_size": 1,
+    "bits": 8,
+    "block_name_to_quantize": "transformer.h",
+    "damp_percent": 0.1,
+    "dataset": "c4",
+    "desc_act": false,
+    "disable_exllama": true,
+    "group_size": 128,
+    "max_input_length": null,
+    "model_seqlen": 2048,
+    "module_name_preceding_first_block": [
+      "transformer.word_embeddings"
+    ],
+    "pad_token_id": null,
+    "quant_method": "gptq",
+    "sym": true,
+    "tokenizer": null,
+    "true_sequential": true,
+    "use_cuda_fp16": true
+  },
+```
 
 #### Fine-tune 'Falcon-1B' with text-to-SQL dataset using TRL and PEFT (FP32):
 
@@ -91,16 +160,11 @@ base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False,
 
 - During training:
 
-<img width="964" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/99a2ec1a-4cd8-4838-8b9a-5e2771a2c873">
 
 - Time taken to train:
 
 ```
-{'loss': 0.4692, 'learning_rate': 0.00019100704165606177, 'epoch': 2.04}
-{'loss': 0.5298, 'learning_rate': 0.00019096462204123187, 'epoch': 2.04}
-{'loss': 0.4378, 'learning_rate': 0.00019092220242640197, 'epoch': 2.05}
-{'train_runtime': 1219.2765, 'train_samples_per_second': 19.334, 'train_steps_per_second': 19.334, 'train_loss': 0.5385711596014342, 'epoch': 2.05}
-Training Done
+
 ```
 
 - Merged files:
@@ -120,9 +184,6 @@ $ ls -lh merged_falcon-rw-1b
 -rw-r--r--. 1 cdsw cdsw 780K Nov  1 01:58 vocab.json
 ```
 
-- Parameters info of the merged model:
-<img width="1022" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/4eaea460-1035-401c-9395-c1ee0f14657d">
-<img width="965" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/e6b1a502-fbc1-465a-a754-638da8f9ab29">
 
 #### Quantize
 
