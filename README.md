@@ -4,44 +4,45 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 # <a name="toc_0"></a>Table of Contents
 [//]: # (TOC)
 [1. Objective](#toc_0)<br>
-[2. Preparation](#toc_1)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.1. Python Libraries](#toc_2)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.2. Dataset](#toc_3)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.3. Model](#toc_4)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.4. Infrastructure](#toc_5)<br>
-[3. bigscience/bloom-1b1](#toc_6)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Fine-Tune & Merge](#toc_7)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.2. Quantize](#toc_8)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.3. Inference](#toc_9)<br>
-[4. bigscience/bloomz-7b1](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune & Merge](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize](#toc_12)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.3. Inference](#toc_13)<br>
-[5. tiiuae/falcon-1b](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune & Merge](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize](#toc_12)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.3. Inference](#toc_13)<br>
-[6. tiiuae/falcon-7b](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune & Merge](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize](#toc_12)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.3. Inference](#toc_13)<br>
-[7. Salesforce/codegen2-1B](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune & Merge](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize](#toc_12)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.3. Inference](#toc_13)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[1.1. Benchmark Summary](#toc_2)<br>
+[2. Preparation](#toc_3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.1. Python Libraries](#toc_4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.2. Dataset](#toc_5)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.3. Model](#toc_6)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.4. Infrastructure](#toc_7)<br>
+[3. bigscience/bloom-1b1](#toc_8)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Fine-Tune & Merge](#toc_9)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.2. Quantize](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.3. Inference](#toc_11)<br>
+[4. bigscience/bloomz-7b1](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune & Merge](#toc_13)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize](#toc_14)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.3. Inference](#toc_15)<br>
+[5. tiiuae/falcon-1b](#toc_16)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune & Merge](#toc_17)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize](#toc_18)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.3. Inference](#toc_19)<br>
+[6. tiiuae/falcon-7b](#toc_20)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune & Merge](#toc_21)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize](#toc_22)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.3. Inference](#toc_23)<br>
+[7. Salesforce/codegen2-1B](#toc_24)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune & Merge](#toc_25)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize](#toc_26)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.3. Inference](#toc_27)<br>
 
 [//]: # (/TOC)
 
 # <a name="toc_0"></a>1. Objective
 
-In the event that you have limited GPU resources or even have no GPU in your infrastructure landscape, you may run your GenAI application using quantized models. This articles focuses on how to quantize your language models in 8, 4, or even 2 bits without **significant** performance degradation and quicker inference speed, with the help of Transformers API.
+- In the event that you have limited GPU resources or even have no GPU in your infrastructure landscape, you may run your GenAI application using quantized models. This articles focuses on how to quantize your language models in 8, 4, or even 2 bits without **significant** performance degradation and quicker inference speed, with the help of Transformers API.
 GPTQ, a Post-Training Quantization (PTQ) technique.
-
 - GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16. During inference, weights are dequantized on the fly and the actual compute is performed in float16.
+- bitsandbytes (zero-shot quantization)
 
-bitsandbytes (zero-shot quantization)
+## <a name="toc_3"></a>1.1. Benchmark Summary
 
-- Table shows the benchmark result when training the model with Text-to-SQL dataset.
+- Table shows the benchmark result of fine-tuning the specific model with **Text-to-SQL** dataset.
   
 | Model | Training | Duration | 
 | :---      |     :---:      |   ---: |
