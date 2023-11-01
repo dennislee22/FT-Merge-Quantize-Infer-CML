@@ -1,4 +1,4 @@
-LLM: Fine-Tune > Merge > Quantize > Inference ... on CML
+LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ===
 
 Table of Contents
