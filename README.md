@@ -1,16 +1,13 @@
 LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ===
 
-# <a name="toc_0"></a>1. Markdown-TOC
-Heading manager for markdown documents.
-
-# <a name="toc_1"></a>2. Table of Contents
+# <a name="toc_0"></a>Table of Contents
 [//]: # (TOC)
-[1. Markdown-TOC](#toc_0)<br>
-[2. Table of Contents](#toc_1)<br>
-[3. What it does](#toc_2)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Heading numbers](#toc_3)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.2. Generate a TOC](#toc_4)<br>
+[1. Objective](#toc_0)<br>
+[2. Preparation](#toc_1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.1. Python Libraries](#toc_2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.2. Dataset](#toc_3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.2. Infrastructure](#toc_4)<br>
 [4. Usage](#toc_5)<br>
 [5. Example](#toc_6)<br>
 [6. Known issues](#toc_7)<br>
@@ -23,27 +20,8 @@ Heading manager for markdown documents.
 &nbsp;&nbsp;&nbsp;&nbsp;[7.6. refactor main script file](#toc_14)
 [//]: # (/TOC)
 
-# <a name="toc_2"></a>3. What it does
+# <a name="toc_0"></a>1. Objective
 
-## <a name="toc_3"></a>3.1. Heading numbers
-This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
-
-## <a name="toc_4"></a>3.2. Generate a TOC
-If there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
-Also, any existing TOC generated with this tool will be updated.
-
-
-Table of Contents
------------------
-
-  * [Objective](#objective)
-  * [Preparation](#preparation)
-  * [Falcon-1B](#falcon-1b)
-    * [Fine-Tune](#fine-tune)
-    * [Merge](#merge)
-
-Objective
-----
 In the event that you have limited GPU resources or even have no GPU in your infrastructure landscape, you may run your GenAI application using quantized models. This articles focuses on how to quantize your language models in 8, 4, or even 2 bits without **significant** performance degradation and quicker inference speed, with the help of Transformers API.
 GPTQ, a Post-Training Quantization (PTQ) technique.
 
@@ -57,6 +35,17 @@ bitsandbytes (zero-shot quantization)
 | :---      |     :---:      |   ---: |
 | bloom-1b  | No quantization     | sec   |
 | bloom-1b  | BitsAndBytes      | sec     |
+
+## <a name="toc_3"></a>3.1. Heading numbers
+This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
+
+## <a name="toc_4"></a>3.2. Generate a TOC
+If there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
+Also, any existing TOC generated with this tool will be updated.
+
+Objective
+----
+
 
 Preparation
 ----
