@@ -69,11 +69,11 @@ pip -r -U requirements.txt
 
 #### <a name="toc_4"></a>3.2. Inference
 
-### <a name="toc_3"></a>6. tiiuae/falcon-7b
+### <a name="toc_20"></a>6. tiiuae/falcon-7b
 
-#### <a name="toc_3"></a>6.1. Fine-Tune & Merge
+#### <a name="toc_21"></a>6.1. Fine-Tune & Merge
 
-#### <a name="toc_4"></a>6.2. Quantize
+#### <a name="toc_"></a>6.2. Quantize
 
 
 ```
@@ -110,7 +110,7 @@ total 3.8G
 
 
 
-#### <a name="toc_4"></a>6.2. Inference
+#### <a name="toc_23"></a>6.2. Inference
 
 8-bit Parameter Precision Info:
 ```
