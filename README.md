@@ -22,9 +22,9 @@ bitsandbytes (zero-shot quantization)
 - Table shows the benchmark result when training the model with Text-to-SQL dataset.
   
 | Model | Training | Duration | 
-| :---         |     :---:      |   ---: |
-| bloom-1b    | No quantization     | sec   |
-| bloom-1b      | BitsAndBytes      | sec     |
+| :---      |     :---:      |   ---: |
+| bloom-1b  | No quantization     | sec   |
+| bloom-1b  | BitsAndBytes      | sec     |
 
 Preparation
 ----
