@@ -1,6 +1,38 @@
 LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ===
 
+# <a name="toc_0"></a>1. Markdown-TOC
+Heading manager for markdown documents.
+
+# <a name="toc_1"></a>2. Table of Contents
+[//]: # (TOC)
+[1. Markdown-TOC](#toc_0)<br>
+[2. Table of Contents](#toc_1)<br>
+[3. What it does](#toc_2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Heading numbers](#toc_3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.2. Generate a TOC](#toc_4)<br>
+[4. Usage](#toc_5)<br>
+[5. Example](#toc_6)<br>
+[6. Known issues](#toc_7)<br>
+[7. TODO](#toc_8)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. `&nbsp;` hack](#toc_9)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. "ignore-root" option](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.3. tolerate inconsistent depth](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.4. code documentation](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.5. tests](#toc_13)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.6. refactor main script file](#toc_14)
+[//]: # (/TOC)
+
+# <a name="toc_2"></a>3. What it does
+
+## <a name="toc_3"></a>3.1. Heading numbers
+This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
+
+## <a name="toc_4"></a>3.2. Generate a TOC
+If there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
+Also, any existing TOC generated with this tool will be updated.
+
+
 Table of Contents
 -----------------
 
