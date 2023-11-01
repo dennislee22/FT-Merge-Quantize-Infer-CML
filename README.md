@@ -7,17 +7,29 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 [2. Preparation](#toc_1)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[2.1. Python Libraries](#toc_2)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[2.2. Dataset](#toc_3)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.2. Infrastructure](#toc_4)<br>
-[4. Usage](#toc_5)<br>
-[5. Example](#toc_6)<br>
-[6. Known issues](#toc_7)<br>
-[7. TODO](#toc_8)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. `&nbsp;` hack](#toc_9)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2. "ignore-root" option](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.3. tolerate inconsistent depth](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.4. code documentation](#toc_12)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.5. tests](#toc_13)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.6. refactor main script file](#toc_14)
+&nbsp;&nbsp;&nbsp;&nbsp;[2.3. Model](#toc_4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[2.4. Infrastructure](#toc_5)<br>
+[3. bigscience/bloom-1b1](#toc_6)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Fine-Tune & Merge](#toc_7)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.2. Quantize](#toc_8)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.3. Inference](#toc_9)<br>
+[4. bigscience/bloomz-7b1](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune & Merge](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.3. Inference](#toc_13)<br>
+[5. tiiuae/falcon-1b](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune & Merge](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.3. Inference](#toc_13)<br>
+[6. tiiuae/falcon-7b](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune & Merge](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.3. Inference](#toc_13)<br>
+[7. Salesforce/codegen2-1B](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune & Merge](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.3. Inference](#toc_13)<br>
+
 [//]: # (/TOC)
 
 # <a name="toc_0"></a>1. Objective
