@@ -1,4 +1,4 @@
-LLM: Fine-Tune > Merge > Quantization ... on CML
+LLM: Fine-Tune > Merge > Quantize > Inference ... on CML
 ===
 
 Table of Contents
@@ -100,6 +100,17 @@ $ ls -lh merged_falcon-rw-1b
 
 ```
 Total Seconds Taken to Quantize Using cuda:0: 1350.0081555843353
+```
+
+```
+ls -lh gptq-merged_falcon-7b_4bit
+total 3.8G
+-rw-r--r--. 1 cdsw cdsw 1.7K Nov  1 05:42 config.json
+-rw-r--r--. 1 cdsw cdsw  118 Nov  1 05:42 generation_config.json
+-rw-r--r--. 1 cdsw cdsw 3.8G Nov  1 05:42 pytorch_model.bin
+-rw-r--r--. 1 cdsw cdsw  541 Nov  1 05:42 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw 2.6K Nov  1 05:42 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw 2.7M Nov  1 05:42 tokenizer.json
 ```
 
 #### Model Inference
