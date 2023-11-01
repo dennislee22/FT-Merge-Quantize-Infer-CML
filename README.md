@@ -1,7 +1,7 @@
 LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ===
 
-# <a name="toc_0"></a>Table of Contents
+## <a name="toc_0"></a>Table of Contents
 [//]: # (TOC)
 [1. Objective](#toc_0)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[1.1. Benchmark Summary](#toc_2)<br>
@@ -33,14 +33,14 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 [//]: # (/TOC)
 
-# <a name="toc_0"></a>1. Objective
+### <a name="toc_0"></a>1. Objective
 
 - In the event that you have limited GPU resources or even have no GPU in your infrastructure landscape, you may run your GenAI application using quantized models. This articles focuses on how to quantize your language models in 8, 4, or even 2 bits without **significant** performance degradation and quicker inference speed, with the help of Transformers API.
 GPTQ, a Post-Training Quantization (PTQ) technique.
 - GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16. During inference, weights are dequantized on the fly and the actual compute is performed in float16.
 - bitsandbytes (zero-shot quantization)
 
-## <a name="toc_3"></a>1.1. Benchmark Summary
+#### <a name="toc_2"></a>1.1. Benchmark Summary
 
 - Table shows the benchmark result of fine-tuning the specific model with **Text-to-SQL** dataset.
   
@@ -49,12 +49,19 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 | bloom-1b  | No quantization     | sec   |
 | bloom-1b  | BitsAndBytes      | sec     |
 
-## <a name="toc_3"></a>3.1. Heading numbers
+### <a name="toc_3"></a>2. Preparation
+
+
+### <a name="toc_3"></a>3. bigscience/bloom-1b1
+
+#### <a name="toc_3"></a>3.1. Fine-Tune & Merge
 This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
 
-## <a name="toc_4"></a>3.2. Generate a TOC
-If there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
-Also, any existing TOC generated with this tool will be updated.
+## <a name="toc_4"></a>3.2. Quantize
+
+
+## <a name="toc_4"></a>3.2. Inference
+
 
 Objective
 ----
