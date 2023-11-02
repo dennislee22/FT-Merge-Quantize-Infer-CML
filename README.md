@@ -81,6 +81,28 @@ pip -r -U requirements.txt
 
 #### <a name="toc_21"></a>6.1. Fine-Tune & Merge
 
+```
+cuda:0 Memory Used: 3723.6384 MB
+--------------------------------------
+
+Parameters loaded for model falcon-7b:
+Total parameters: 3608.7448 M
+Trainable parameters: 295.7690 M
+
+
+Data types for loaded model falcon-7b:
+torch.float16, 295.7690 M, 8.20 %
+torch.uint8, 3312.9759 M, 91.80 %
+```
+
+```
+{'loss': 0.5093, 'learning_rate': 0.0001921099516416391, 'epoch': 2.04}
+{'loss': 0.4912, 'learning_rate': 0.00019202511241197932, 'epoch': 2.04}
+{'loss': 0.524, 'learning_rate': 0.00019194027318231952, 'epoch': 2.04}
+{'train_runtime': 6659.1722, 'train_samples_per_second': 3.54, 'train_steps_per_second': 1.77, 'train_loss': 0.5437259482040565, 'epoch': 2.04}
+Training Done
+```
+
 #### <a name="toc_"></a>6.2. Quantize
 
 
