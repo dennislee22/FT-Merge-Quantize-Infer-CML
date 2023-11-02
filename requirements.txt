@@ -8,5 +8,8 @@ xformers
 peft
 scipy
 sentencepiece
+trl
+ipywidgets
+typing_extensions
 nvitop
 
