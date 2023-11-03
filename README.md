@@ -74,6 +74,13 @@ pip -r -U requirements.txt
 
 <img width="972" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/dd9af9d2-1bed-4313-bc25-bc0c04869420">
 
+```
+{'loss': 0.7034, 'learning_rate': 0.0001935522185458556, 'epoch': 2.03}
+{'loss': 0.6713, 'learning_rate': 0.0001935097989310257, 'epoch': 2.03}
+{'loss': 0.572, 'learning_rate': 0.00019346737931619584, 'epoch': 2.03}
+{'train_runtime': 717.8766, 'train_samples_per_second': 32.839, 'train_steps_per_second': 32.839, 'train_loss': 0.7831860100403525, 'epoch': 2.03}
+Training Done
+```
 
 #### <a name="toc_4"></a>3.2. Quantize
 
