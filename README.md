@@ -72,6 +72,9 @@ pip -r -U requirements.txt
 
 #### <a name="toc_3"></a>3.1. Fine-Tune & Merge
 
+<img width="972" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/dd9af9d2-1bed-4313-bc25-bc0c04869420">
+
+
 #### <a name="toc_4"></a>3.2. Quantize
 
 
