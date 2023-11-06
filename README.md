@@ -1,29 +1,29 @@
-<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8948c012-15e6-44be-86c1-4fb7f103ff83">LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
+LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ===
 
 ## <a name="toc_0"></a>Table of Contents
 [//]: # (TOC)
 [1. Objective](#toc_0)<br>
-[2. Summary & Benchmark Score](#toc_2)<br>
-[3. Preparation](#toc_3)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Dataset & Model](#toc_4)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.2. CML Session](#toc_5)<br>
-[4. bigscience/bloom-1b1](#toc_6)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_7)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize > Inference](#toc_8)<br>
-[5. bigscience/bloom-7b1](#toc_9)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (8-bit) > Merge > Inference](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize > Inference](#toc_12)<br>
-[6. tiiuae/falcon-1b](#toc_13)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_14)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_15)<br>
-[7. tiiuae/falcon-7b](#toc_16)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_17)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (8-bit) > Merge > Inference](#toc_18)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize > Inference](#toc_19)<br>
-[8. Salesforce/codegen2-1B](#toc_20)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[8.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_21)<br>
+[2. Benchmark Score & Summary](#toc_1)<br>
+[3. Preparation](#toc_2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Dataset & Model](#toc_3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.2. CML Session](#toc_4)<br>
+[4. bigscience/bloom-1b1](#toc_5)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_6)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize > Inference](#toc_7)<br>
+[5. bigscience/bloom-7b1](#toc_8)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_9)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (8-bit) > Merge > Inference](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize > Inference](#toc_11)<br>
+[6. tiiuae/falcon-1b](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_13)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_14)<br>
+[7. tiiuae/falcon-7b](#toc_15)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_16)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (8-bit) > Merge > Inference](#toc_17)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize > Inference](#toc_18)<br>
+[8. Salesforce/codegen2-1B](#toc_19)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[8.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_20)<br>
 
 [//]: # (/TOC)
 
@@ -227,9 +227,9 @@ SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
 ```
 
 
-### <a name="toc_16"></a>7. `Bigscience/bloom-1b1`
+### <a name="toc_9"></a>5. `Bigscience/bloom-1b1`
 
-#### <a name="toc_17"></a>7.1. Fine-Tune (wo Quantization) > Merge > Inference
+#### <a name="toc_10"></a>5.1. Fine-Tune (wo Quantization) > Merge > Inference
 
 - Code Snippet:
 ```
@@ -256,7 +256,7 @@ torch.float32, 7069.0161 M, 100.00 %
 OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacty of 39.39 GiB of which 373.94 MiB is free. Process 1793579 has 39.02 GiB memory in use. Of the allocated memory 38.23 GiB is allocated by PyTorch, and 305.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
 ```
 
-#### <a name="toc_18"></a>7.2. Fine-Tune (w 4-bit Quantization) > Merge > Inference
+#### <a name="toc_14"></a>6.2. Fine-Tune (w 4-bit Quantization) > Merge > Inference
 
 - Code Snippet:
 ```
@@ -323,36 +323,65 @@ Fine-tuned Model Result :
 SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 ```
 
-#### <a name="toc_19"></a>7.3. Quantize > Inference
+#### <a name="toc_15"></a>6.3. Quantize > Inference
 - During quantization:
-<img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe"><br>
-
+<img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe">
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/2b47132c-c0e1-406c-b331-25611f1402bb"><br>
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/abc6ad51-148a-47c0-b8bb-384fe7bf2539"><br>
 
 - Time taken to quantize:
 ```
-
+Total Seconds Taken to Quantize Using cuda:0: 2073.348790884018
 ```
 
 - Snippet of `config.json` file in the quantized model folder:
 ```
-
+▶
+quantization_config:
+batch_size: 1
+bits: 8
+block_name_to_quantize: "transformer.h"
+damp_percent: 0.1
+dataset: "c4"
+desc_act: false
+disable_exllama: true
+group_size: 128
+max_input_length: null
+model_seqlen: 2048
+▶
+module_name_preceding_first_block: [] 2 items
+pad_token_id: null
+quant_method: "gptq"
+sym: true
+tokenizer: null
+true_sequential: true
+use_cuda_fp16: true
 ```
 
 - Load the quantized model into VRAM:
 ```
-cuda:0 Memory Footprint: 7038.3259 MB
+cuda:0 Memory Footprint: 7861.3594 MB
 
 Data types:
-torch.float16, 295.7690 M, 100.00 %
+torch.float16, 1028.1124 M, 100.00 %
 ```
-<img width="976" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/b4eedd48-fa3d-48a5-bf88-863975f58438">
+<img width="1060" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/1d2cb609-df98-4b62-81d9-200f65ba68d3">
 
 
 - Run inference on the quantized model:
 ```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
 
+--------------------------------------
+Quantized Model Result :
+SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 ```
-
 
 
 ### <a name="toc_16"></a>7. `tiiuae/falcon-7b`
@@ -595,82 +624,4 @@ Fine-tuned Model Result :
 ```
 Base Model Result :
 port,,vt,(vt((var(,st#
-```
-
-#### <a name="toc_8"></a>4.2. Quantize > Inference
-- During quantization:
-<img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
-
-<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/218470a5-4358-41ce-8661-0dc8b21bf224"><br>
-
-- Time taken to quantize:
-```
-Total Seconds Taken to Quantize Using cuda:0: 282.6761214733124
-```
-
-- Load the quantized model into VRAM:
-```
-cuda:0 Memory Footprint: 1400.0977 MB
-
-Data types:
-torch.float16, 385.5053 M, 100.00 %
-
-```
-<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab"><br>
-
-- Run inference on the quantized model:
-```
---------------------------------------
-Prompt:
-# Instruction:
-Use the context below to produce the result
-# context:
-CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
-# result:
-
---------------------------------------
-Quantized Model Result :
-SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
-```
-
-
-
-#### Notes
-
-- During quantization process:
-
-<img width="1056" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/a7935a5b-3b3d-419b-8257-8635f829e4e9">
-
-<img width="1023" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/e07355d0-6f08-4fe0-a708-40380c1323cd">
-
-- When exllama is enabled, 'Assertion error:`
-- Disabling exllama allowing the quantization process to complete. Notice that CPU is also being used:
-
-<img width="1022" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/127c3e28-b194-407d-acef-f7f3a75b70ce">
-
-<img width="900" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/daf4c454-4689-4e5f-99e4-5dfb5216ebfa">
-
-```
-Total Seconds Taken to Quantize Using cuda:0: 1350.0081555843353
-```
-
-```
-ls -lh gptq-merged_falcon-7b_4bit
-total 3.8G
--rw-r--r--. 1 cdsw cdsw 1.7K Nov  1 05:42 config.json
--rw-r--r--. 1 cdsw cdsw  118 Nov  1 05:42 generation_config.json
--rw-r--r--. 1 cdsw cdsw 3.8G Nov  1 05:42 pytorch_model.bin
--rw-r--r--. 1 cdsw cdsw  541 Nov  1 05:42 special_tokens_map.json
--rw-r--r--. 1 cdsw cdsw 2.6K Nov  1 05:42 tokenizer_config.json
--rw-r--r--. 1 cdsw cdsw 2.7M Nov  1 05:42 tokenizer.json
-```
-
-8-bit Parameter Precision Info:
-```
-cuda:0 Memory Footprint: 7038.3259 MB
-Total parameters: 295.7690 M
-Trainable parameters: 295.7690 M
-
-Data types:
-torch.float16, 295.7690 M, 100.00 %
 ```
