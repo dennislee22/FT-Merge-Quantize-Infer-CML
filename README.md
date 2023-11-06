@@ -70,7 +70,7 @@ pip -r -U requirements.txt
 
 ### <a name="toc_3"></a>3. bigscience/bloom-1b1
 
-#### <a name="toc_3"></a>3.1. Fine-Tune & Merge
+#### <a name="toc_3"></a>3.1. Fine-Tune > Merge > Inference
 
 - Code Snippet:
 ```
@@ -102,12 +102,15 @@ torch.float32, 1065.3143 M, 100.00 %
 {'train_runtime': 715.2236, 'train_samples_per_second': 32.96, 'train_steps_per_second': 16.48, 'train_loss': 0.8183029612163445, 'epoch': 2.03}
 Training Done
 ```
+Load Merged Model:
+```
+Merged Model Memory Footprint in VRAM: 4063.8516 MB
 
-#### <a name="toc_4"></a>3.2. Quantize
+Data types:
+torch.float32, 1065.3143 M, 100.00 %
+```
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/021a1854-f943-4257-9165-f90bde98c5e8">
 
-
-#### <a name="toc_4"></a>3.2. Inference
-Before Quantization:
 ```
 --------------------------------------
 Prompt:
@@ -130,6 +133,12 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 # result:
 CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
 ```
+
+#### <a name="toc_4"></a>3.2. Quantize > Inference
+
+
+#### <a name="toc_4"></a>3.2. Inference
+
 
 ### <a name="toc_20"></a>6. tiiuae/falcon-7b
 
