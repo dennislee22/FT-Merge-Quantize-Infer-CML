@@ -259,7 +259,7 @@ true_sequential: true
 use_cuda_fp16: true
 ```
 
-### <a name="toc_8"></a>5. `Bigscience/bloom-7b1`
+### <a name="toc_8"></a>5. `bigscience/bloom-7b1`
 
 #### <a name="toc_9"></a>5.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
