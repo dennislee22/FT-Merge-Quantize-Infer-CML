@@ -96,10 +96,10 @@ torch.float32, 1065.3143 M, 100.00 %
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/579e91f5-39be-448c-a86d-3f7b8cadd86f">
 
 ```
-{'loss': 0.7034, 'learning_rate': 0.0001935522185458556, 'epoch': 2.03}
-{'loss': 0.6713, 'learning_rate': 0.0001935097989310257, 'epoch': 2.03}
-{'loss': 0.572, 'learning_rate': 0.00019346737931619584, 'epoch': 2.03}
-{'train_runtime': 717.8766, 'train_samples_per_second': 32.839, 'train_steps_per_second': 32.839, 'train_loss': 0.7831860100403525, 'epoch': 2.03}
+{'loss': 0.8367, 'learning_rate': 0.0001936370577755154, 'epoch': 2.03}
+{'loss': 0.7152, 'learning_rate': 0.0001935522185458556, 'epoch': 2.03}
+{'loss': 0.6493, 'learning_rate': 0.00019346737931619584, 'epoch': 2.03}
+{'train_runtime': 941.8413, 'train_samples_per_second': 25.03, 'train_steps_per_second': 12.515, 'train_loss': 0.8185011078010905, 'epoch': 2.03}
 Training Done
 ```
 
