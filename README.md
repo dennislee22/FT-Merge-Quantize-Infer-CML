@@ -345,30 +345,6 @@ SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 Total Seconds Taken to Quantize Using cuda:0: 2073.348790884018
 ```
 
-- Snippet of `config.json` file in the quantized model folder:
-```
-▶
-quantization_config:
-batch_size: 1
-bits: 8
-block_name_to_quantize: "transformer.h"
-damp_percent: 0.1
-dataset: "c4"
-desc_act: false
-disable_exllama: true
-group_size: 128
-max_input_length: null
-model_seqlen: 2048
-▶
-module_name_preceding_first_block: [] 2 items
-pad_token_id: null
-quant_method: "gptq"
-sym: true
-tokenizer: null
-true_sequential: true
-use_cuda_fp16: true
-```
-
 - Load the quantized model into VRAM:
 ```
 cuda:0 Memory Footprint: 7861.3594 MB
@@ -394,6 +370,29 @@ Quantized Model Result :
 SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 ```
 
+- Snippet of `config.json` file in the quantized model folder:
+```
+▶
+quantization_config:
+batch_size: 1
+bits: 8
+block_name_to_quantize: "transformer.h"
+damp_percent: 0.1
+dataset: "c4"
+desc_act: false
+disable_exllama: true
+group_size: 128
+max_input_length: null
+model_seqlen: 2048
+▶
+module_name_preceding_first_block: [] 2 items
+pad_token_id: null
+quant_method: "gptq"
+sym: true
+tokenizer: null
+true_sequential: true
+use_cuda_fp16: true
+```
 
 ### <a name="toc_16"></a>7. `tiiuae/falcon-7b`
 
@@ -466,8 +465,26 @@ warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 duri
 Training Done
 ```
 
-- After training is completed, merge the base model with the PEFT-trained adapters.
-  
+- After the training is completed, merge the base model with the PEFT-trained adapters.
+
+- Inside the merged model directory:
+```
+$ ls -lh
+total 26G
+-rw-r--r--. 1 cdsw cdsw 1.2K Nov  6 04:55 config.json
+-rw-r--r--. 1 cdsw cdsw  118 Nov  6 04:55 generation_config.json
+-rw-r--r--. 1 cdsw cdsw 4.7G Nov  6 04:55 pytorch_model-00001-of-00006.bin
+-rw-r--r--. 1 cdsw cdsw 4.7G Nov  6 04:55 pytorch_model-00002-of-00006.bin
+-rw-r--r--. 1 cdsw cdsw 4.7G Nov  6 04:55 pytorch_model-00003-of-00006.bin
+-rw-r--r--. 1 cdsw cdsw 4.7G Nov  6 04:55 pytorch_model-00004-of-00006.bin
+-rw-r--r--. 1 cdsw cdsw 4.7G Nov  6 04:55 pytorch_model-00005-of-00006.bin
+-rw-r--r--. 1 cdsw cdsw 2.7G Nov  6 04:55 pytorch_model-00006-of-00006.bin
+-rw-r--r--. 1 cdsw cdsw  17K Nov  6 04:55 pytorch_model.bin.index.json
+-rw-r--r--. 1 cdsw cdsw  313 Nov  6 04:55 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw 2.6K Nov  6 04:55 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw 2.7M Nov  6 04:55 tokenizer.json
+```
+
 - Load the merged model into VRAM:
 ```
 Merged Model Memory Footprint in VRAM: 26404.2729 MB
@@ -512,6 +529,45 @@ The result shows the titles of the books whose writer is not Dennis Lee.
 Total Seconds Taken to Quantize Using cuda:0: 1312.4991219043732
 ```
 
+- Load the quantized model into VRAM:
+```
+cuda:0 Memory Footprint: 7038.3259 MB
+
+Data types:
+torch.float16, 295.7690 M, 100.00 %
+```
+<img width="976" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/b4eedd48-fa3d-48a5-bf88-863975f58438">
+
+
+- Run inference on the quantized model:
+```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
+
+--------------------------------------
+Quantized Model Result :
+SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
+```
+
+- Inside the quantized directory:
+```
+$ ls -lh
+total 6.9G
+-rw-r--r--. 1 cdsw cdsw 1.7K Nov  6 05:26 config.json
+-rw-r--r--. 1 cdsw cdsw  118 Nov  6 05:26 generation_config.json
+-rw-r--r--. 1 cdsw cdsw 4.7G Nov  6 05:26 pytorch_model-00001-of-00002.bin
+-rw-r--r--. 1 cdsw cdsw 2.3G Nov  6 05:26 pytorch_model-00002-of-00002.bin
+-rw-r--r--. 1 cdsw cdsw  61K Nov  6 05:26 pytorch_model.bin.index.json
+-rw-r--r--. 1 cdsw cdsw  541 Nov  6 05:26 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw 2.6K Nov  6 05:26 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw 2.7M Nov  6 05:26 tokenizer.json
+```
+
 - Snippet of `config.json` file in the quantized model folder:
 ```
 ▶
@@ -540,31 +596,6 @@ torch_dtype: "float16"
 transformers_version: "4.35.0.dev0"
 use_cache: true
 vocab_size: 65024
-```
-
-- Load the quantized model into VRAM:
-```
-cuda:0 Memory Footprint: 7038.3259 MB
-
-Data types:
-torch.float16, 295.7690 M, 100.00 %
-```
-<img width="976" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/b4eedd48-fa3d-48a5-bf88-863975f58438">
-
-
-- Run inference on the quantized model:
-```
---------------------------------------
-Prompt:
-# Instruction:
-Use the context below to produce the result
-# context:
-CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
-# result:
-
---------------------------------------
-Quantized Model Result :
-SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
 ```
 
 ### <a name="toc_20"></a>8. `Salesforce/codegen2-1B`
