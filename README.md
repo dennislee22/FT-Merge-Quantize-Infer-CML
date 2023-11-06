@@ -22,10 +22,9 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_17)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (8-bit) > Merge > Inference](#toc_18)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize > Inference](#toc_19)<br>
-[7. Salesforce/codegen2-1B](#toc_20)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune & Merge](#toc_21)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize](#toc_22)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.3. Inference](#toc_23)<br>
+[8. Salesforce/codegen2-1B](#toc_20)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[8.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_21)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[8.2. Quantize > Inference](#toc_22)<br>
 
 [//]: # (/TOC)
 
@@ -113,7 +112,52 @@ torch.float32, 1065.3143 M, 100.00 %
 Training Done
 ```
 
+- Inside the training_output directory:
+```
+$ ls -lh
+total 23M
+-rw-r--r--. 1 cdsw cdsw  427 Nov  6 02:07 adapter_config.json
+-rw-r--r--. 1 cdsw cdsw 9.1M Nov  6 02:07 adapter_model.bin
+drwxr-xr-x. 2 cdsw cdsw   11 Nov  6 01:59 checkpoint-257
+drwxr-xr-x. 2 cdsw cdsw   11 Nov  6 02:03 checkpoint-514
+drwxr-xr-x. 2 cdsw cdsw   11 Nov  6 02:07 checkpoint-771
+-rw-r--r--. 1 cdsw cdsw   88 Nov  6 02:07 README.md
+-rw-r--r--. 1 cdsw cdsw   95 Nov  6 02:07 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw  983 Nov  6 02:07 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw  14M Nov  6 02:07 tokenizer.json
+-rw-r--r--. 1 cdsw cdsw 4.5K Nov  6 02:07 training_args.bin
+```
+
 - After the training is completed, merge the base model with the PEFT-trained adapters.
+
+- Inside the merged model directory:
+```
+$ ls -lh
+total 4.0G
+-rw-r--r--. 1 cdsw cdsw  777 Nov  6 02:07 config.json
+-rw-r--r--. 1 cdsw cdsw  137 Nov  6 02:07 generation_config.json
+-rw-r--r--. 1 cdsw cdsw 4.0G Nov  6 02:07 pytorch_model.bin
+-rw-r--r--. 1 cdsw cdsw   95 Nov  6 02:07 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw  983 Nov  6 02:07 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw  14M Nov  6 02:07 tokenizer.json
+```
+
+- Inside the base model directory:
+```
+$ ls -lh
+total 6.0G
+-rw-r--r--. 1 cdsw cdsw  693 Oct 28 02:22 config.json
+-rw-r--r--. 1 cdsw cdsw 2.0G Oct 28 01:32 flax_model.msgpack
+-rw-r--r--. 1 cdsw cdsw  16K Oct 28 01:27 LICENSE
+-rw-r--r--. 1 cdsw cdsw 2.0G Oct 28 01:31 model.safetensors
+drwxr-xr-x. 2 cdsw cdsw   11 Oct 28 01:27 onnx
+-rw-r--r--. 1 cdsw cdsw 2.0G Oct 28 01:29 pytorch_model.bin
+-rw-r--r--. 1 cdsw cdsw  21K Oct 28 01:27 README.md
+-rw-r--r--. 1 cdsw cdsw   85 Oct 28 01:27 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw  222 Oct 28 01:33 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw  14M Oct 28 01:33 tokenizer.json
+```
+
 - Load the merged model into VRAM:
 ```
 Merged Model Memory Footprint in VRAM: 4063.8516 MB
@@ -355,6 +399,101 @@ Quantized Model Result :
 SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
 ```
 
+### <a name="toc_6"></a>4. `Salesforce/codegen2-1B`
+
+#### <a name="toc_7"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
+
+- Use this Jupyter code `` to fine-tune, merge and perform a simple inference on the merged model.
+  
+- Code Snippet:
+```
+base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
+```
+
+- Load model before fine-tuning/training starts:
+```
+Base Model Memory Footprint in VRAM: 3937.0859 MB
+--------------------------------------
+Parameters loaded for model codegen2-1B:
+Total parameters: 1015.3062 M
+Trainable parameters: 1015.3062 M
+
+
+Data types for loaded model codegen2-1B:
+torch.float32, 1015.3062 M, 100.00 %
+```
+
+<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/0c7e3350-5bf7-45f0-a7cb-2afdf7abafbf">
+
+- During fine-tuning/training:
+<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/88679eb2-c280-4a7f-a2ef-1020c87fa120">
+
+
+- It takes ~12mins to complete the training.
+```
+
+```
+
+- After the training is completed, merge the base model with the PEFT-trained adapters.
+- Load the merged model into VRAM:
+```
+
+```
+
+- Run inference on the fine-tuned/merged model and the base model:
+```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
+
+--------------------------------------
+Fine-tuned Model Result :
+SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
+```
+
+```
+
+```
+
+#### <a name="toc_8"></a>4.2. Quantize > Inference
+- During quantization:
+<img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
+
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/218470a5-4358-41ce-8661-0dc8b21bf224"><br>
+
+- Time taken to quantize:
+```
+Total Seconds Taken to Quantize Using cuda:0: 282.6761214733124
+```
+
+- Load the quantized model into VRAM:
+```
+cuda:0 Memory Footprint: 1400.0977 MB
+
+Data types:
+torch.float16, 385.5053 M, 100.00 %
+
+```
+<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab"><br>
+
+- Run inference on the quantized model:
+```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
+
+--------------------------------------
+Quantized Model Result :
+SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
+```
 
 
 
