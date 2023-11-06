@@ -93,7 +93,7 @@ torch.float32, 1065.3143 M, 100.00 %
 <img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/4e557656-abb9-409f-8a56-23601af785f9">
 
 - During training:
-<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/579e91f5-39be-448c-a86d-3f7b8cadd86f">
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/d1a594f6-c284-4cb7-bda5-17d19227626d">
 
 ```
 {'loss': 0.8367, 'learning_rate': 0.0001936370577755154, 'epoch': 2.03}
@@ -107,6 +107,29 @@ Training Done
 
 
 #### <a name="toc_4"></a>3.2. Inference
+Before Quantization:
+```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
+
+--------------------------------------
+Fine-tuned Model Result :
+SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
+```
+
+```
+Base Model Result :
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
+# result:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
+```
 
 ### <a name="toc_20"></a>6. tiiuae/falcon-7b
 
