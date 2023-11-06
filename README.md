@@ -99,7 +99,7 @@ Data types for loaded model bloom-1b1:
 torch.float32, 1065.3143 M, 100.00 %
 ```
 
-<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/4e557656-abb9-409f-8a56-23601af785f9">
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/4e557656-abb9-409f-8a56-23601af785f9"><br>
 
 - During fine-tuning/training:
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/d1a594f6-c284-4cb7-bda5-17d19227626d">
@@ -121,7 +121,7 @@ Merged Model Memory Footprint in VRAM: 4063.8516 MB
 Data types:
 torch.float32, 1065.3143 M, 100.00 %
 ```
-<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/021a1854-f943-4257-9165-f90bde98c5e8">
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/021a1854-f943-4257-9165-f90bde98c5e8"><br>
 
 - Run inference on the fine-tuned/merged model and the base model:
 ```
@@ -151,7 +151,7 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
-<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/218470a5-4358-41ce-8661-0dc8b21bf224">
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/218470a5-4358-41ce-8661-0dc8b21bf224"><br>
 
 - Time taken to quantize:
 ```
@@ -166,7 +166,7 @@ Data types:
 torch.float16, 385.5053 M, 100.00 %
 
 ```
-<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab">
+<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab"><br>
 
 - Infer quantized model:
 ```
@@ -204,14 +204,14 @@ Trainable parameters: 6921.7207 M
 Data types for loaded model falcon-7b:
 torch.float32, 6921.7207 M, 100.00 %
 ```
-<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/dd499a83-f7b9-41d3-8c59-955e9e16a0fc">
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/dd499a83-f7b9-41d3-8c59-955e9e16a0fc"><br>
 
 - During fine-tuning/training:
 
 ```
 OutOfMemoryError: CUDA out of memory. Tried to allocate 1.11 GiB. GPU 0 has a total capacty of 39.39 GiB of which 345.94 MiB is free. Process 1618370 has 39.04 GiB memory in use. Of the allocated memory 37.50 GiB is allocated by PyTorch, and 1.05 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
 ```
-<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/0e91da7b-f704-4b03-a824-b5391819a6c8">
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/0e91da7b-f704-4b03-a824-b5391819a6c8"><br>
 
 #### <a name="toc_18"></a>7.2. Fine-Tune (w 8-bit Quantization) > Merge > Inference
 
@@ -236,7 +236,7 @@ Data types for loaded model falcon-7b:
 torch.float16, 295.7690 M, 4.27 %
 torch.int8, 6625.9517 M, 95.73 %
 ```
-<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/a228e9ef-6e4d-438b-8b3a-53d74f7d127b">
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/a228e9ef-6e4d-438b-8b3a-53d74f7d127b"><br>
 
 - During fine-tuning/training:
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/6a743e35-672f-4163-916b-0b491d88bf42">
@@ -245,6 +245,7 @@ torch.int8, 6625.9517 M, 95.73 %
 warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
 ```
 
+- Time taken to quantize:
 ```
 
 ```
