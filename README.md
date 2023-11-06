@@ -114,7 +114,7 @@ Training Done
 ```
 
 - After the training is completed, merge the base model with the PEFT-trained adapters.
-- Load the merged model:
+- Load the merged model into VRAM:
 ```
 Merged Model Memory Footprint in VRAM: 4063.8516 MB
 
@@ -158,7 +158,7 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 Total Seconds Taken to Quantize Using cuda:0: 282.6761214733124
 ```
 
-- Loaded quantized model:
+- Load the quantized model into VRAM:
 ```
 cuda:0 Memory Footprint: 1400.0977 MB
 
@@ -168,7 +168,7 @@ torch.float16, 385.5053 M, 100.00 %
 ```
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab"><br>
 
-- Infer quantized model:
+- Run inference on the quantized model:
 ```
 --------------------------------------
 Prompt:
@@ -192,7 +192,7 @@ SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load model before fine-tuning/training starts:
+- Load model into VRAM before fine-tuning/training starts:
 ```
 Base Model Memory Footprint in VRAM: 26404.2729 MB
 --------------------------------------
@@ -223,7 +223,7 @@ bnb_config = BitsAndBytesConfig(
 base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
-- Load model before fine-tuning/training starts:
+- Load model into VRAM before fine-tuning/training starts:
 ```
 Base Model Memory Footprint in VRAM: 6883.1384 MB
 --------------------------------------
@@ -245,23 +245,29 @@ torch.int8, 6625.9517 M, 95.73 %
 warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
 ```
 
-- Time taken to quantize:
+- It takes ~65mins to complete the training.
 ```
-
+{'loss': 0.5285, 'learning_rate': 0.00019198269279714942, 'epoch': 2.04}
+{'loss': 0.4823, 'learning_rate': 0.00019194027318231952, 'epoch': 2.04}
+{'loss': 0.4703, 'learning_rate': 0.00019189785356748962, 'epoch': 2.04}
+{'train_runtime': 3911.2114, 'train_samples_per_second': 6.027, 'train_steps_per_second': 6.027, 'train_loss': 0.5239265531830902, 'epoch': 2.04}
+Training Done
 ```
 
 - After training is completed, merge the base model with the PEFT-trained adapters.
   
-- Load the merged model:
+- Load the merged model into VRAM:
 ```
-Merged Model Memory Footprint in VRAM: 4063.8516 MB
+Merged Model Memory Footprint in VRAM: 26404.2729 MB
 
 Data types:
-torch.float32, 1065.3143 M, 100.00 %
+torch.float32, 6921.7207 M, 100.00 %
 ```
-<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/021a1854-f943-4257-9165-f90bde98c5e8">
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/2a411f32-4220-4b90-a1ab-4df1db8c4c8d"><br>
+
 
 - Run inference on the fine-tuned/merged model and the base model:
+
 ```
 --------------------------------------
 Prompt:
@@ -278,36 +284,76 @@ SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
 
 ```
 Base Model Result :
-CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
-# result:
-CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
-# result:
-CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
+Title Writer
+# Explanation:
+The result shows the titles of the books whose writer is not Dennis Lee.
+# 5.3.3.4.4.3.4.3.4.3.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
 ```
 
 #### <a name="toc_19"></a>7.3. Quantize > Inference
 - During quantization:
+<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/116479a1-2941-485d-953d-63791e024ff7">
+
 
 - Time taken to quantize:
 ```
-
+Total Seconds Taken to Quantize Using cuda:0: 1312.4991219043732
 ```
 
-- Loaded quantized model:
+- Snippet of config.json file in the quantized model folder:
+```
+▶
+quantization_config:
+batch_size: 1
+bits: 8
+block_name_to_quantize: "transformer.h"
+damp_percent: 0.1
+dataset: "c4"
+desc_act: false
+disable_exllama: false
+group_size: 128
+max_input_length: null
+model_seqlen: 2048
+▶
+module_name_preceding_first_block: [] 1 item
+pad_token_id: null
+quant_method: "gptq"
+sym: true
+tokenizer: null
+true_sequential: true
+use_cuda_fp16: true
+rope_scaling: null
+rope_theta: 10000
+torch_dtype: "float16"
+transformers_version: "4.35.0.dev0"
+use_cache: true
+vocab_size: 65024
 ```
 
+- Load the quantized model into VRAM:
 ```
+cuda:0 Memory Footprint: 7038.3259 MB
 
-- Infer quantized model:
+Data types:
+torch.float16, 295.7690 M, 100.00 %
 ```
+<img width="976" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/b4eedd48-fa3d-48a5-bf88-863975f58438">
 
+
+- Run inference on the quantized model:
 ```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
 
-
-
-
-
-
+--------------------------------------
+Quantized Model Result :
+SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
+```
 
 
 
