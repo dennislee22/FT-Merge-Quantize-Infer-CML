@@ -72,7 +72,28 @@ pip -r -U requirements.txt
 
 #### <a name="toc_3"></a>3.1. Fine-Tune & Merge
 
-<img width="972" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/dd9af9d2-1bed-4313-bc25-bc0c04869420">
+- Code Snippet:
+```
+base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
+```
+
+- Load model before training starts:
+```
+Base Model Memory Footprint in VRAM: 4063.8516 MB
+--------------------------------------
+Parameters loaded for model bloom-1b1:
+Total parameters: 1065.3143 M
+Trainable parameters: 1065.3143 M
+
+
+Data types for loaded model bloom-1b1:
+torch.float32, 1065.3143 M, 100.00 %
+```
+
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/4e557656-abb9-409f-8a56-23601af785f9">
+
+- During training:
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/579e91f5-39be-448c-a86d-3f7b8cadd86f">
 
 ```
 {'loss': 0.7034, 'learning_rate': 0.0001935522185458556, 'epoch': 2.03}
