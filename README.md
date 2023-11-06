@@ -24,7 +24,6 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize > Inference](#toc_19)<br>
 [8. Salesforce/codegen2-1B](#toc_20)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[8.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_21)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[8.2. Quantize > Inference](#toc_22)<br>
 
 [//]: # (/TOC)
 
@@ -399,9 +398,9 @@ Quantized Model Result :
 SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
 ```
 
-### <a name="toc_6"></a>4. `Salesforce/codegen2-1B`
+### <a name="toc_20"></a>8. `Salesforce/codegen2-1B`
 
-#### <a name="toc_7"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
+#### <a name="toc_21"></a>8.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
 - Use this Jupyter code `` to fine-tune, merge and perform a simple inference on the merged model.
   
