@@ -13,15 +13,15 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize > Inference](#toc_7)<br>
 [5. bigscience/bloom-7b1](#toc_8)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_9)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (8-bit) > Merge > Inference](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize > Inference](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Fine-Tune (w 8-bit) > Merge > Inference](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.3. Quantize (GPTQ 8bit) > Inference](#toc_11)<br>
 [6. tiiuae/falcon-1b](#toc_12)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_13)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_14)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize (GPTQ 8bit) > Inference](#toc_14)<br>
 [7. tiiuae/falcon-7b](#toc_15)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_16)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (8-bit) > Merge > Inference](#toc_17)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize > Inference](#toc_18)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w 8-bit) > Merge > Inference](#toc_17)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize (GPTQ 8bit) > Inference](#toc_18)<br>
 [8. Salesforce/codegen2-1B](#toc_19)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[8.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_20)<br>
 
@@ -38,8 +38,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 - During this training process, both the forward and backward steps are done using FP16 weights and activations. However, to properly calculate and apply the updates at the end of the backward step, the mixed-precision optimizer keeps an FP32 copy of the parameters and all other states used in the optimizer.
 
 
-
-#### <a name="toc_2"></a>2. Summary & Benchmark Score
+#### <a name="toc_1"></a>2. Summary & Benchmark Score
 
 - Table shows the benchmark result of fine-tuning the specific base model with **Text-to-SQL** dataset.
   
@@ -50,9 +49,9 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 - Quantization: A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
   
-### <a name="toc_3"></a>3. Preparation
+### <a name="toc_2"></a>3. Preparation
 
-#### <a name="toc_4"></a>3.1 Dataset & Model
+#### <a name="toc_3"></a>3.1 Dataset & Model
 
 - Download or use the following the following model directly from 🤗.<br> 
 &nbsp;a. `bigscience/bloom-1b1`<br>
@@ -63,7 +62,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 &nbsp;a. Dataset for fine-tuning: <br> 
 &nbsp;b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. C4 is a large-scale, multilingual collection of web text gathered from the Common Crawl project. <br> 
 
-#### <a name="toc_5"></a>3.2 CML Session
+#### <a name="toc_4"></a>3.2 CML Session
 
 - CML (Cloudera Machine Learning) runs on the Kubernetes platform. When a `CML session` is requested, CML instructs K8s to schedule and provision a pod with the required resource profile.
 1. Create a CML project using Python 3.9 with Nvidia GPU runtime.
@@ -73,9 +72,9 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 pip install -r requirements.txt
 ```
 
-### <a name="toc_6"></a>4. `bigscience/bloom-1b1`
+### <a name="toc_5"></a>4. `bigscience/bloom-1b1`
 
-#### <a name="toc_7"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
+#### <a name="toc_6"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
 - Use this Jupyter code to fine-tune, merge and perform a simple inference on the merged model.
   
@@ -190,7 +189,7 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
 ```
 
-#### <a name="toc_8"></a>4.2. Quantize (GPTQ 8bit) > Inference
+#### <a name="toc_7"></a>4.2. Quantize (GPTQ 8bit) > Inference
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
@@ -263,9 +262,9 @@ true_sequential: true
 use_cuda_fp16: true
 ```
 
-### <a name="toc_9"></a>5. `Bigscience/bloom-1b1`
+### <a name="toc_8"></a>5. `Bigscience/bloom-7b1`
 
-#### <a name="toc_10"></a>5.1. Fine-Tune (wo Quantization) > Merge > Inference
+#### <a name="toc_9"></a>5.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
 - Code Snippet:
 ```
@@ -292,7 +291,7 @@ torch.float32, 7069.0161 M, 100.00 %
 OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacty of 39.39 GiB of which 373.94 MiB is free. Process 1793579 has 39.02 GiB memory in use. Of the allocated memory 38.23 GiB is allocated by PyTorch, and 305.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
 ```
 
-#### <a name="toc_14"></a>6.2. Fine-Tune (w 4-bit Quantization) > Merge > Inference
+#### <a name="toc_10"></a>5.2. Fine-Tune (w 4-bit) > Merge > Inference
 
 - Code Snippet:
 ```
@@ -359,7 +358,7 @@ Fine-tuned Model Result :
 SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 ```
 
-#### <a name="toc_15"></a>6.3. Quantize > Inference
+#### <a name="toc_11"></a>5.3. Quantize (GPTQ 8bit) > Inference
 - During quantization:
 <img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe">
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/2b47132c-c0e1-406c-b331-25611f1402bb"><br>
@@ -419,9 +418,9 @@ true_sequential: true
 use_cuda_fp16: true
 ```
 
-### <a name="toc_16"></a>7. `tiiuae/falcon-7b`
+### <a name="toc_12"></a>7. `tiiuae/falcon-7b`
 
-#### <a name="toc_17"></a>7.1. Fine-Tune (wo Quantization) > Merge > Inference
+#### <a name="toc_13"></a>7.1. Fine-Tune (wo Quantization) > Merge > Inference
 
 - Code Snippet:
 ```
@@ -449,7 +448,7 @@ OutOfMemoryError: CUDA out of memory. Tried to allocate 1.11 GiB. GPU 0 has a to
 ```
 <img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/0e91da7b-f704-4b03-a824-b5391819a6c8"><br>
 
-#### <a name="toc_18"></a>7.2. Fine-Tune (w 8-bit Quantization) > Merge > Inference
+#### <a name="toc_14"></a>7.2. Fine-Tune (w 8-bit Quantization) > Merge > Inference
 
 - Code Snippet:
 ```
@@ -544,7 +543,7 @@ The result shows the titles of the books whose writer is not Dennis Lee.
 # 5.3.3.4.4.3.4.3.4.3.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
 ```
 
-#### <a name="toc_19"></a>7.3. Quantize (GPTQ 8bit) > Inference
+#### <a name="toc_15"></a>7.3. Quantize (GPTQ 8bit) > Inference
 - During quantization:
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/116479a1-2941-485d-953d-63791e024ff7">
 
@@ -623,9 +622,9 @@ use_cache: true
 vocab_size: 65024
 ```
 
-### <a name="toc_20"></a>8. `Salesforce/codegen2-1B`
+### <a name="toc_16"></a>8. `Salesforce/codegen2-1B`
 
-#### <a name="toc_21"></a>8.1. Fine-Tune (w/o Quantization) > Merge > Inference
+#### <a name="toc_17"></a>8.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
 - Use this Jupyter code `` to fine-tune, merge and perform a simple inference on the merged model.
   
