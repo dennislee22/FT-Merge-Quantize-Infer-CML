@@ -1,4 +1,4 @@
-LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8948c012-15e6-44be-86c1-4fb7f103ff83">LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ===
 
 ## <a name="toc_0"></a>Table of Contents
@@ -226,6 +226,135 @@ Quantized Model Result :
 SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
 ```
 
+
+### <a name="toc_16"></a>7. `Bigscience/bloom-1b1`
+
+#### <a name="toc_17"></a>7.1. Fine-Tune (wo Quantization) > Merge > Inference
+
+- Code Snippet:
+```
+base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
+```
+
+- Load model into VRAM before fine-tuning/training starts:
+```
+Base Model Memory Footprint in VRAM: 26966.1562 MB
+--------------------------------------
+Parameters loaded for model bloom-7b1:
+Total parameters: 7069.0161 M
+Trainable parameters: 7069.0161 M
+
+
+Data types for loaded model bloom-7b1:
+torch.float32, 7069.0161 M, 100.00 %
+```
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/6244a0d9-f2d8-4f64-b13e-c01acf49755d"><br>
+
+- During fine-tuning/training:
+
+```
+OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacty of 39.39 GiB of which 373.94 MiB is free. Process 1793579 has 39.02 GiB memory in use. Of the allocated memory 38.23 GiB is allocated by PyTorch, and 305.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+```
+
+#### <a name="toc_18"></a>7.2. Fine-Tune (w 4-bit Quantization) > Merge > Inference
+
+- Code Snippet:
+```
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype="float16"
+)
+base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
+```
+
+- Load model into VRAM before fine-tuning/training starts:
+```
+Base Model Memory Footprint in VRAM: 4843.0781 MB
+--------------------------------------
+Parameters loaded for model bloom-7b1:
+Total parameters: 4049.1172 M
+Trainable parameters: 1028.1124 M
+
+Data types for loaded model bloom-7b1:
+torch.float16, 1029.2183 M, 25.42 %
+torch.uint8, 3019.8989 M, 74.58 %
+```
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/1276e377-00c3-4951-afdd-1cd42282bf0e"><br>
+
+- During fine-tuning/training:
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/6d1ec652-9bd8-42d4-8e08-b2bb2cdc82d4">
+
+- It takes ~83mins to complete the training.
+```
+'loss': 0.5777, 'learning_rate': 0.0001935522185458556, 'epoch': 2.03}
+{'loss': 0.5486, 'learning_rate': 0.0001935097989310257, 'epoch': 2.03}
+{'loss': 0.465, 'learning_rate': 0.00019346737931619584, 'epoch': 2.03}
+{'train_runtime': 5024.8159, 'train_samples_per_second': 4.692, 'train_steps_per_second': 4.692, 'train_loss': 0.6570684858410584, 'epoch': 2.03}
+Training Done
+```
+
+- After training is completed, merge the base model with the PEFT-trained adapters.
+  
+- Load the merged model into VRAM:
+```
+Merged Model Memory Footprint in VRAM: 26966.1562 MB
+
+Data types:
+torch.float32, 7069.0161 M, 100.00 %
+```
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/21e7c7a3-3e50-40b4-a807-75d6a61ed3ab"><br>
+
+
+- Run inference on the fine-tuned/merged model:
+
+```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
+
+--------------------------------------
+Fine-tuned Model Result :
+SELECT Title FROM book WHERE Writer <> "Dennis Lee"
+```
+
+#### <a name="toc_19"></a>7.3. Quantize > Inference
+- During quantization:
+<img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe"><br>
+
+
+- Time taken to quantize:
+```
+
+```
+
+- Snippet of `config.json` file in the quantized model folder:
+```
+
+```
+
+- Load the quantized model into VRAM:
+```
+cuda:0 Memory Footprint: 7038.3259 MB
+
+Data types:
+torch.float16, 295.7690 M, 100.00 %
+```
+<img width="976" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/b4eedd48-fa3d-48a5-bf88-863975f58438">
+
+
+- Run inference on the quantized model:
+```
+
+```
+
+
+
 ### <a name="toc_16"></a>7. `tiiuae/falcon-7b`
 
 #### <a name="toc_17"></a>7.1. Fine-Tune (wo Quantization) > Merge > Inference
@@ -343,7 +472,7 @@ The result shows the titles of the books whose writer is not Dennis Lee.
 Total Seconds Taken to Quantize Using cuda:0: 1312.4991219043732
 ```
 
-- Snippet of config.json file in the quantized model folder:
+- Snippet of `config.json` file in the quantized model folder:
 ```
 ▶
 quantization_config:
