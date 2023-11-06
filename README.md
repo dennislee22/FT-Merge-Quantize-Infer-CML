@@ -66,7 +66,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 #### <a name="toc_5"></a>3.2 CML Session
 
-- CML
+- CML (Cloudera Machine Learning) runs on the Kubernetes platform. When a `CML session` is requested, CML instructs K8s to schedule and provision a pod with the required resource profile.
 1. Create a CML project using Python 3.9 with Nvidia GPU runtime.
 2. Create a CML session (Jupyter) with the resource profile of 4CPU and 64GB memory and 1GPU.
 3. In the CML session, install the necessary Python packages.
@@ -460,11 +460,13 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 
 --------------------------------------
 Fine-tuned Model Result :
-SELECT Title FROM book WHERE Writer <> 'Dennis Lee'
+    Result:
+    SELECT t1.name FROM table_code JOINCT (name INTEGER), How many customers who have a department?
 ```
 
 ```
-
+Base Model Result :
+port,,vt,(vt((var(,st#
 ```
 
 #### <a name="toc_8"></a>4.2. Quantize > Inference
