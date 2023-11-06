@@ -15,12 +15,12 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_9)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[5.2. Fine-Tune (4-bit) > Merge > Inference](#toc_10)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[5.3. Quantize (GPTQ 8-bit) > Inference](#toc_11)<br>
-[6. tiiuae/falcon-7b](#toc_15)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_16)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Fine-Tune (8-bit) > Merge > Inference](#toc_17)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.3. Quantize (GPTQ 8-bit) > Inference](#toc_18)<br>
-[7. Salesforce/codegen2-1B](#toc_19)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_20)<br>
+[6. tiiuae/falcon-7b](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_13)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Fine-Tune (8-bit) > Merge > Inference](#toc_14)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.3. Quantize (GPTQ 8-bit) > Inference](#toc_15)<br>
+[7. Salesforce/codegen2-1B](#toc_16)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_17)<br>
 
 [//]: # (/TOC)
 
