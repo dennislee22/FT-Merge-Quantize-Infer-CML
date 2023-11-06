@@ -226,6 +226,17 @@ Quantized Model Result :
 SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
 ```
 
+- Inside the quantized directory:
+```
+$ ls -lh
+total 1.4G
+-rw-r--r--. 1 cdsw cdsw 1.4K Nov  6 02:39 config.json
+-rw-r--r--. 1 cdsw cdsw  137 Nov  6 02:39 generation_config.json
+-rw-r--r--. 1 cdsw cdsw 1.4G Nov  6 02:39 pytorch_model.bin
+-rw-r--r--. 1 cdsw cdsw  551 Nov  6 02:39 special_tokens_map.json
+-rw-r--r--. 1 cdsw cdsw  983 Nov  6 02:39 tokenizer_config.json
+-rw-r--r--. 1 cdsw cdsw  14M Nov  6 02:39 tokenizer.json
+```
 
 ### <a name="toc_9"></a>5. `Bigscience/bloom-1b1`
 
