@@ -6,22 +6,26 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 [1. Objective](#toc_0)<br>
 [2. Summary & Benchmark Score](#toc_2)<br>
 [3. Preparation](#toc_3)<br>
-[4. bigscience/bloom-1b1](#toc_4)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune > Merge > Inference](#toc_5)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize > Inference](#toc_6)<br>
-[5. bigscience/bloomz-7b1](#toc_7)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune > Merge > Inference](#toc_8)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize > Inference](#toc_9)<br>
-[6. tiiuae/falcon-1b](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune > Merge > Inference](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_12)<br>
-[6. tiiuae/falcon-7b](#toc_20)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune > Merge > Inference](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_12)<br>
-[7. Salesforce/codegen2-1B](#toc_24)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune & Merge](#toc_25)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize](#toc_26)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.3. Inference](#toc_27)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Dataset & Model](#toc_4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.2. CML Session](#toc_5)<br>
+[4. bigscience/bloom-1b1](#toc_6)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_7)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize > Inference](#toc_8)<br>
+[5. bigscience/bloom-7b1](#toc_9)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (8-bit) > Merge > Inference](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize > Inference](#toc_12)<br>
+[6. tiiuae/falcon-1b](#toc_13)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_14)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_15)<br>
+[7. tiiuae/falcon-7b](#toc_16)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_17)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (8-bit) > Merge > Inference](#toc_18)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize > Inference](#toc_19)<br>
+[7. Salesforce/codegen2-1B](#toc_20)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune & Merge](#toc_21)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize](#toc_22)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.3. Inference](#toc_23)<br>
 
 [//]: # (/TOC)
 
@@ -31,39 +35,56 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 GPTQ, a Post-Training Quantization (PTQ) technique.
 - GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16. During inference, weights are dequantized on the fly and the actual compute is performed in float16.
 - bitsandbytes (zero-shot quantization)
-
 - To comprehend this, it’s crucial to realize that during model training, the model states are the main contributors to memory usage. These include tensors composed of optimizer states, gradients, and parameters. In addition to these model states, there are activations, temporary buffers, and fragmented memory, collectively known as residual states, that consume the remaining memory.
-
 - The latest way to train big models using the newest NVIDIA graphics cards uses a method known as mixed-precision (FP16/32) training. FP32 is called full precision (4 bytes), while FP16 are referred to as half-precision (2 bytes). Here, important model components like parameters and activations are stored as FP16. This storage method allows these graphics cards to process large amounts of data very quickly.
-
-During this training process, both the forward and backward steps are done using FP16 weights and activations. However, to properly calculate and apply the updates at the end of the backward step, the mixed-precision optimizer keeps an FP32 copy of the parameters and all other states used in the optimizer.
+- During this training process, both the forward and backward steps are done using FP16 weights and activations. However, to properly calculate and apply the updates at the end of the backward step, the mixed-precision optimizer keeps an FP32 copy of the parameters and all other states used in the optimizer.
 
 
 
 #### <a name="toc_2"></a>2. Summary & Benchmark Score
 
-- Table shows the benchmark result of fine-tuning the specific model with **Text-to-SQL** dataset.
+- Table shows the benchmark result of fine-tuning the specific base model with **Text-to-SQL** dataset.
   
 | Model | Training | Duration | 
 | :---      |     :---:      |   ---: |
 | bloom-1b  | No quantization     | sec   |
 | bloom-1b  | BitsAndBytes      | sec     |
 
-### <a name="toc_3"></a>2. Preparation
+- Quantization: A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
+  
+### <a name="toc_3"></a>3. Preparation
 
-1. Install the Python libraries
+#### <a name="toc_4"></a>3.1 Dataset & Model
 
-```shell
-pip -r -U requirements.txt
+- Download or use the following the following model directly from 🤗. 
+a. `bigscience/bloom-1b1`
+b. `tiiuae/falcon-7b`
+c. `Salesforce/codegen2-1B`
+
+- Download or use the following sample dataset directly from 🤗. 
+a. Dataset for fine-tuning: 
+b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. C4 is a large-scale, multilingual collection of web text gathered from the Common Crawl project. 
+
+#### <a name="toc_5"></a>3.2 CML Session
+
+- CML
+1. Create a CML project using Python 3.9 with Nvidia GPU runtime.
+2. Create a CML session (Jupyter) with the resource profile of 4CPU and 64GB memory and 1GPU.
+3. In the CML session, install the necessary Python packages.
+```
+pip install -r requirements.txt
 ```
 
-- The quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. It is a large-scale, multilingual collection of web text gathered from the Common Crawl project. A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
+Note:
+
 
 
 ### <a name="toc_3"></a>3. bigscience/bloom-1b1
 
-#### <a name="toc_3"></a>3.1. Fine-Tune (wo Quantization) > Merge > Inference
+#### <a name="toc_3"></a>3.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
+- Use this Jupyter code to fine-tune, merge and perform a simple inference on the merged model.
+  
 - Code Snippet:
 ```
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
@@ -87,6 +108,7 @@ torch.float32, 1065.3143 M, 100.00 %
 - During fine-tuning/training:
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/d1a594f6-c284-4cb7-bda5-17d19227626d">
 
+- It takes ~12mins to complete the training.
 ```
 {'loss': 0.8376, 'learning_rate': 0.0001936370577755154, 'epoch': 2.03}
 {'loss': 0.7142, 'learning_rate': 0.0001935522185458556, 'epoch': 2.03}
@@ -94,7 +116,8 @@ torch.float32, 1065.3143 M, 100.00 %
 {'train_runtime': 715.2236, 'train_samples_per_second': 32.96, 'train_steps_per_second': 16.48, 'train_loss': 0.8183029612163445, 'epoch': 2.03}
 Training Done
 ```
-- After training is completed, merge the base model with the PEFT-trained adapters.
+
+- After the training is completed, merge the base model with the PEFT-trained adapters.
 - Load the merged model:
 ```
 Merged Model Memory Footprint in VRAM: 4063.8516 MB
