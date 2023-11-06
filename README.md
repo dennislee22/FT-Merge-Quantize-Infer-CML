@@ -13,11 +13,11 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize (GPTQ 8-bit) > Inference](#toc_7)<br>
 [5. bigscience/bloom-7b1](#toc_8)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_9)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Fine-Tune (w 8-bit) > Merge > Inference](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Fine-Tune (4-bit) > Merge > Inference](#toc_10)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[5.3. Quantize (GPTQ 8-bit) > Inference](#toc_11)<br>
 [6. tiiuae/falcon-7b](#toc_15)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_16)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Fine-Tune (w 8-bit) > Merge > Inference](#toc_17)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Fine-Tune (8-bit) > Merge > Inference](#toc_17)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[6.3. Quantize (GPTQ 8-bit) > Inference](#toc_18)<br>
 [7. Salesforce/codegen2-1B](#toc_19)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_20)<br>
@@ -186,7 +186,7 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
 ```
 
-#### <a name="toc_7"></a>4.2. Quantize (GPTQ 8bit) > Inference
+#### <a name="toc_7"></a>4.2. Quantize (GPTQ 8-bit) > Inference
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
@@ -288,7 +288,7 @@ torch.float32, 7069.0161 M, 100.00 %
 OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacty of 39.39 GiB of which 373.94 MiB is free. Process 1793579 has 39.02 GiB memory in use. Of the allocated memory 38.23 GiB is allocated by PyTorch, and 305.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
 ```
 
-#### <a name="toc_10"></a>5.2. Fine-Tune (w 4-bit) > Merge > Inference
+#### <a name="toc_10"></a>5.2. Fine-Tune (4-bit) > Merge > Inference
 
 - Code Snippet:
 ```
