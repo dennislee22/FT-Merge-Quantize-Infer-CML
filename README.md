@@ -4,28 +4,20 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ## <a name="toc_0"></a>Table of Contents
 [//]: # (TOC)
 [1. Objective](#toc_0)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[1.1. Benchmark Summary](#toc_2)<br>
-[2. Preparation](#toc_3)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.1. Python Libraries](#toc_4)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.2. Dataset](#toc_5)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.3. Model](#toc_6)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[2.4. Infrastructure](#toc_7)<br>
-[3. bigscience/bloom-1b1](#toc_8)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.1. Fine-Tune & Merge](#toc_9)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.2. Quantize](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[3.3. Inference](#toc_11)<br>
-[4. bigscience/bloomz-7b1](#toc_12)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune & Merge](#toc_13)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize](#toc_14)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[4.3. Inference](#toc_15)<br>
-[5. tiiuae/falcon-1b](#toc_16)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune & Merge](#toc_17)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize](#toc_18)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[5.3. Inference](#toc_19)<br>
+[2. Summary & Benchmark Score](#toc_2)<br>
+[3. Preparation](#toc_3)<br>
+[4. bigscience/bloom-1b1](#toc_4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.1. Fine-Tune > Merge > Inference](#toc_5)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[4.2. Quantize > Inference](#toc_6)<br>
+[5. bigscience/bloomz-7b1](#toc_7)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Fine-Tune > Merge > Inference](#toc_8)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Quantize > Inference](#toc_9)<br>
+[6. tiiuae/falcon-1b](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune > Merge > Inference](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_12)<br>
 [6. tiiuae/falcon-7b](#toc_20)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune & Merge](#toc_21)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize](#toc_22)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[6.3. Inference](#toc_23)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Fine-Tune > Merge > Inference](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Quantize > Inference](#toc_12)<br>
 [7. Salesforce/codegen2-1B](#toc_24)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune & Merge](#toc_25)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.2. Quantize](#toc_26)<br>
@@ -102,7 +94,7 @@ torch.float32, 1065.3143 M, 100.00 %
 {'train_runtime': 715.2236, 'train_samples_per_second': 32.96, 'train_steps_per_second': 16.48, 'train_loss': 0.8183029612163445, 'epoch': 2.03}
 Training Done
 ```
-Load Merged Model:
+- Load merged model:
 ```
 Merged Model Memory Footprint in VRAM: 4063.8516 MB
 
@@ -135,10 +127,40 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 ```
 
 #### <a name="toc_4"></a>3.2. Quantize > Inference
+- During quantization:
+<img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
+<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/218470a5-4358-41ce-8661-0dc8b21bf224">
 
-#### <a name="toc_4"></a>3.2. Inference
+- Time taken to quantize:
+```
+Total Seconds Taken to Quantize Using cuda:0: 282.6761214733124
+```
 
+- Loaded quantized model:
+```
+cuda:0 Memory Footprint: 1400.0977 MB
+
+Data types:
+torch.float16, 385.5053 M, 100.00 %
+
+```
+<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab">
+
+- Infer quantized model:
+```
+--------------------------------------
+Prompt:
+# Instruction:
+Use the context below to produce the result
+# context:
+CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
+# result:
+
+--------------------------------------
+Quantized Model Result :
+SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
+```
 
 ### <a name="toc_20"></a>6. tiiuae/falcon-7b
 
