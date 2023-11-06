@@ -56,14 +56,14 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 #### <a name="toc_4"></a>3.1 Dataset & Model
 
-- Download or use the following the following model directly from 🤗. 
-a. `bigscience/bloom-1b1`
-b. `tiiuae/falcon-7b`
-c. `Salesforce/codegen2-1B`
+- Download or use the following the following model directly from 🤗.<br> 
+&nbsp;a. `bigscience/bloom-1b1`<br>
+&nbsp;b. `tiiuae/falcon-7b`<br>
+&nbsp;c. `Salesforce/codegen2-1B`<br>
 
-- Download or use the following sample dataset directly from 🤗. 
-a. Dataset for fine-tuning: 
-b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. C4 is a large-scale, multilingual collection of web text gathered from the Common Crawl project. 
+- Download or use the following sample dataset directly from 🤗. <br> 
+&nbsp;a. Dataset for fine-tuning: <br> 
+&nbsp;b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. C4 is a large-scale, multilingual collection of web text gathered from the Common Crawl project. <br> 
 
 #### <a name="toc_5"></a>3.2 CML Session
 
@@ -75,13 +75,9 @@ b. Dataset for quantization: Quantization requires sample data to calibrate and 
 pip install -r requirements.txt
 ```
 
-Note:
+### <a name="toc_6"></a>4. `bigscience/bloom-1b1`
 
-
-
-### <a name="toc_3"></a>3. bigscience/bloom-1b1
-
-#### <a name="toc_3"></a>3.1. Fine-Tune (w/o Quantization) > Merge > Inference
+#### <a name="toc_7"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
 - Use this Jupyter code to fine-tune, merge and perform a simple inference on the merged model.
   
@@ -151,7 +147,7 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
 ```
 
-#### <a name="toc_4"></a>3.2. Quantize > Inference
+#### <a name="toc_8"></a>4.2. Quantize > Inference
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
@@ -187,9 +183,9 @@ Quantized Model Result :
 SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
 ```
 
-### <a name="toc_20"></a>6. tiiuae/falcon-7b
+### <a name="toc_16"></a>7. `tiiuae/falcon-7b`
 
-#### <a name="toc_3"></a>3.1. Fine-Tune (wo Quantization) > Merge > Inference
+#### <a name="toc_17"></a>7.1. Fine-Tune (wo Quantization) > Merge > Inference
 
 - Code Snippet:
 ```
@@ -217,11 +213,14 @@ OutOfMemoryError: CUDA out of memory. Tried to allocate 1.11 GiB. GPU 0 has a to
 ```
 <img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/0e91da7b-f704-4b03-a824-b5391819a6c8">
 
-#### <a name="toc_3"></a>3.1. Fine-Tune (w 8-bit Quantization) > Merge > Inference
+#### <a name="toc_18"></a>7.2. Fine-Tune (w 8-bit Quantization) > Merge > Inference
 
 - Code Snippet:
 ```
-base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
+bnb_config = BitsAndBytesConfig(
+    load_in_8bit=True,
+)
+base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
 - Load model before fine-tuning/training starts:
@@ -249,7 +248,9 @@ warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 duri
 ```
 
 ```
+
 - After training is completed, merge the base model with the PEFT-trained adapters.
+  
 - Load the merged model:
 ```
 Merged Model Memory Footprint in VRAM: 4063.8516 MB
@@ -283,179 +284,34 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
 ```
 
-#### <a name="toc_4"></a>3.2. Quantize > Inference
+#### <a name="toc_19"></a>7.3. Quantize > Inference
 - During quantization:
-<img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
-
-<img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/218470a5-4358-41ce-8661-0dc8b21bf224">
 
 - Time taken to quantize:
 ```
-Total Seconds Taken to Quantize Using cuda:0: 282.6761214733124
+
 ```
 
 - Loaded quantized model:
 ```
-cuda:0 Memory Footprint: 1400.0977 MB
-
-Data types:
-torch.float16, 385.5053 M, 100.00 %
 
 ```
-<img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab">
 
 - Infer quantized model:
 ```
---------------------------------------
-Prompt:
-# Instruction:
-Use the context below to produce the result
-# context:
-CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
-# result:
-
---------------------------------------
-Quantized Model Result :
-SELECT Title FROM book WHERE Writer = 'Not Dennis Lee'
-```
-
-#### <a name="toc_21"></a>6.1. Fine-Tune & Merge
-
-```
-cuda:0 Memory Used: 3723.6384 MB
---------------------------------------
-
-Parameters loaded for model falcon-7b:
-Total parameters: 3608.7448 M
-Trainable parameters: 295.7690 M
-
-
-Data types for loaded model falcon-7b:
-torch.float16, 295.7690 M, 8.20 %
-torch.uint8, 3312.9759 M, 91.80 %
-```
-
-```
-{'loss': 0.5093, 'learning_rate': 0.0001921099516416391, 'epoch': 2.04}
-{'loss': 0.4912, 'learning_rate': 0.00019202511241197932, 'epoch': 2.04}
-{'loss': 0.524, 'learning_rate': 0.00019194027318231952, 'epoch': 2.04}
-{'train_runtime': 6659.1722, 'train_samples_per_second': 3.54, 'train_steps_per_second': 1.77, 'train_loss': 0.5437259482040565, 'epoch': 2.04}
-Training Done
-```
-
-#### <a name="toc_"></a>6.2. Quantize
-
-
-```
-quantization_config = GPTQConfig(bits=8, dataset = "c4", tokenizer=tokenizer, disable_exllama=True)
-```
-
-```
-Total Seconds Taken to Quantize Using cuda:0: 1384.6443202495575
-```
-
-```
-$ ls -lh gptq-merged_falcon-7b_8bit
-total 6.9G
--rw-r--r--. 1 cdsw cdsw 1.7K Nov  1 06:54 config.json
--rw-r--r--. 1 cdsw cdsw  118 Nov  1 06:54 generation_config.json
--rw-r--r--. 1 cdsw cdsw 4.7G Nov  1 06:54 pytorch_model-00001-of-00002.bin
--rw-r--r--. 1 cdsw cdsw 2.3G Nov  1 06:54 pytorch_model-00002-of-00002.bin
--rw-r--r--. 1 cdsw cdsw  61K Nov  1 06:54 pytorch_model.bin.index.json
--rw-r--r--. 1 cdsw cdsw  541 Nov  1 06:54 special_tokens_map.json
--rw-r--r--. 1 cdsw cdsw 2.6K Nov  1 06:54 tokenizer_config.json
--rw-r--r--. 1 cdsw cdsw 2.7M Nov  1 06:54 tokenizer.json
-```
-
-```
-$ ls -lh gptq-merged_falcon-7b_4bit
-total 3.8G
--rw-r--r--. 1 cdsw cdsw 1.7K Nov  1 05:42 config.json
--rw-r--r--. 1 cdsw cdsw  118 Nov  1 05:42 generation_config.json
--rw-r--r--. 1 cdsw cdsw 3.8G Nov  1 05:42 pytorch_model.bin
--rw-r--r--. 1 cdsw cdsw  541 Nov  1 05:42 special_tokens_map.json
--rw-r--r--. 1 cdsw cdsw 2.6K Nov  1 05:42 tokenizer_config.json
--rw-r--r--. 1 cdsw cdsw 2.7M Nov  1 05:42 tokenizer.json
-```
-
-
-
-#### <a name="toc_23"></a>6.2. Inference
-
-8-bit Parameter Precision Info:
-```
-cuda:0 Memory Footprint: 7038.3259 MB
-Total parameters: 295.7690 M
-Trainable parameters: 295.7690 M
-
-Data types:
-torch.float16, 295.7690 M, 100.00 %
-```
-
-8-bit gpustat:
-```
-[0] NVIDIA A100-PCIE-40GB | 29°C,   0 % |  8097 / 40960 MB |
-```
-8-bit config.json:
-```
-  "quantization_config": {
-    "batch_size": 1,
-    "bits": 8,
-    "block_name_to_quantize": "transformer.h",
-    "damp_percent": 0.1,
-    "dataset": "c4",
-    "desc_act": false,
-    "disable_exllama": true,
-    "group_size": 128,
-    "max_input_length": null,
-    "model_seqlen": 2048,
-    "module_name_preceding_first_block": [
-      "transformer.word_embeddings"
-    ],
-    "pad_token_id": null,
-    "quant_method": "gptq",
-    "sym": true,
-    "tokenizer": null,
-    "true_sequential": true,
-    "use_cuda_fp16": true
-  },
-```
-
-#### Fine-tune 'Falcon-1B' with text-to-SQL dataset using TRL and PEFT (FP32):
-
-- Code snippet:
-```
-base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
-```
-
-- During training:
-
-
-- Time taken to train:
 
 ```
 
-```
-
-- Merged files:
-  
-```
-$ ls -lh merged_falcon-rw-1b
-**total 4.9G**
--rw-r--r--. 1 cdsw cdsw 1.2K Nov  1 01:58 config.json
--rw-r--r--. 1 cdsw cdsw  116 Nov  1 01:58 generation_config.json
--rw-r--r--. 1 cdsw cdsw 446K Nov  1 01:58 merges.txt
--rw-r--r--. 1 cdsw cdsw 4.7G Nov  1 01:58 pytorch_model-00001-of-00002.bin
--rw-r--r--. 1 cdsw cdsw 257M Nov  1 01:58 pytorch_model-00002-of-00002.bin
--rw-r--r--. 1 cdsw cdsw  25K Nov  1 01:58 pytorch_model.bin.index.json
--rw-r--r--. 1 cdsw cdsw  131 Nov  1 01:58 special_tokens_map.json
--rw-r--r--. 1 cdsw cdsw  477 Nov  1 01:58 tokenizer_config.json
--rw-r--r--. 1 cdsw cdsw 2.1M Nov  1 01:58 tokenizer.json
--rw-r--r--. 1 cdsw cdsw 780K Nov  1 01:58 vocab.json
-```
 
 
-#### Quantize
+
+
+
+
+
+
+
+#### Notes
 
 - During quantization process:
 
@@ -485,20 +341,12 @@ total 3.8G
 -rw-r--r--. 1 cdsw cdsw 2.7M Nov  1 05:42 tokenizer.json
 ```
 
-#### Model Inference
-
-<img width="1021" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-CML/assets/35444414/67a1bcd2-5e62-4207-84e1-1859acb62059">
-
+8-bit Parameter Precision Info:
 ```
---------------------------------------
-Prompt:
-# Instruction:
-Use the context below to produce the result
-# context:
-CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is not Dennis Lee?
-# result:
---------------------------------------
-Fine-tuned Model Result :
+cuda:0 Memory Footprint: 7038.3259 MB
+Total parameters: 295.7690 M
+Trainable parameters: 295.7690 M
 
-SELECT Title FROM book WHERE Writer <> "Dennis Lee"
+Data types:
+torch.float16, 295.7690 M, 100.00 %
 ```
