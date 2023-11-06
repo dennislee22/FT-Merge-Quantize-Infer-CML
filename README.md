@@ -431,14 +431,22 @@ torch.float32, 1015.3062 M, 100.00 %
 
 - It takes ~12mins to complete the training.
 ```
-
+{'loss': 2.8109, 'learning_rate': 0.00019189785356748962, 'epoch': 2.04}
+{'loss': 2.2957, 'learning_rate': 0.00019185543395265972, 'epoch': 2.04}
+{'loss': 2.598, 'learning_rate': 0.00019181301433782982, 'epoch': 2.04}
+{'train_runtime': 683.683, 'train_samples_per_second': 34.481, 'train_steps_per_second': 34.481, 'train_loss': 3.380507248720025, 'epoch': 2.04}
+Training Done
 ```
 
 - After the training is completed, merge the base model with the PEFT-trained adapters.
 - Load the merged model into VRAM:
 ```
+Merged Model Memory Footprint in VRAM: 3937.0859 MB
 
+Data types:
+torch.float32, 1015.3062 M, 100.00 %
 ```
+<img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/c9f9e672-2d61-40e5-af24-1e1b07e6e9fa"><br>
 
 - Run inference on the fine-tuned/merged model and the base model:
 ```
