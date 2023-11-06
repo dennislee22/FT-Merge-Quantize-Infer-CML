@@ -190,7 +190,7 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the books whose writer is Dennis Lee?
 ```
 
-#### <a name="toc_8"></a>4.2. Quantize > Inference
+#### <a name="toc_8"></a>4.2. Quantize (GPTQ 8bit) > Inference
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
@@ -236,6 +236,31 @@ total 1.4G
 -rw-r--r--. 1 cdsw cdsw  551 Nov  6 02:39 special_tokens_map.json
 -rw-r--r--. 1 cdsw cdsw  983 Nov  6 02:39 tokenizer_config.json
 -rw-r--r--. 1 cdsw cdsw  14M Nov  6 02:39 tokenizer.json
+```
+
+- Snippet of `config.json` file in the quantized model folder:
+```
+pretraining_tp: 1
+▶
+quantization_config:
+batch_size: 1
+bits: 8
+block_name_to_quantize: "transformer.h"
+damp_percent: 0.1
+dataset: "c4"
+desc_act: false
+disable_exllama: false
+group_size: 128
+max_input_length: null
+model_seqlen: 2048
+▶
+module_name_preceding_first_block: [] 2 items
+pad_token_id: null
+quant_method: "gptq"
+sym: true
+tokenizer: null
+true_sequential: true
+use_cuda_fp16: true
 ```
 
 ### <a name="toc_9"></a>5. `Bigscience/bloom-1b1`
@@ -519,7 +544,7 @@ The result shows the titles of the books whose writer is not Dennis Lee.
 # 5.3.3.4.4.3.4.3.4.3.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
 ```
 
-#### <a name="toc_19"></a>7.3. Quantize > Inference
+#### <a name="toc_19"></a>7.3. Quantize (GPTQ 8bit) > Inference
 - During quantization:
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/116479a1-2941-485d-953d-63791e024ff7">
 
