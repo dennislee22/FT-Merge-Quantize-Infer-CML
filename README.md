@@ -31,12 +31,12 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 1. To create a LLM that is capable to achieving an AI task with specific datasets, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest until reaching acceptable results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined datasets, thereby significantly decreasing the computational resource and time.
 2. Quantization allows model to be loaded into VRAM with constrained capacity. `bitsandbytes` (zero-shot quantization) is a python library for applying 8-bit or even 4-bit quantization to model. GPTQ is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on benchmark standards such as MMLU and HellaSwag.
 3. `Text-to-SQL` dataset is selected in this experiment to do supervised learning with the correct `prompt`.
-4. The experiments to carry out the above tasks are done using the following codes. In a nutshell, you can run these scripts to explore the end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference.<br><br>
+4. You can run the following codes to explore the end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference.<br><br>
 &nbsp;a. `ft-trl-train.ipynb`: Run this cell by cell to fine-tune the base model with local datasets using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
 &nbsp;b. `quantize_model.ipynb`: You may choose to quantize your model (post-training) in 8, 4, or even 2 bits using `auto-gptq` library.<br>
 &nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br><br>
-5. Experiments were carried out using `bloom`, `falcon` and `codegen2` models with 1B to 7B parameters. The idea is to find out the actual GPU memory consumption when carrying out specific task in the above fine-tuning lifecycle. Results are detailed in the following section.
-6. The results can also be used to determine the sizing guide for buying a GPU card to achieve your use cases.
+5. Experiments were carried out using `bloom`, `falcon` and `codegen2` models with 1B to 7B parameters. The idea is to find out the actual GPU memory consumption when carrying out specific task in the above PEFT fine-tuning lifecycle. Results are detailed in the following section.
+6. These results can also be used to determine the sizing guide for buying a GPU card to achieve your use cases.
 
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
@@ -77,7 +77,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 | codegen2-1B  | No Quantization    | ~4.5G           |~16G              | ~5G                   | N/A                 | N/A                         |
 
 **Summary:**
-1. LLM fine-tuning and quantization are VRAM-intensive activities. If you are buying a GPU for fine-tuning purposes, please take note of benchmark results.
+1. LLM fine-tuning and quantization are VRAM-intensive activities. If you are buying a GPU for fine-tuning purposes, please take note of the benchmark results.
 2. During model training, the model states such as optimizer states, gradients, and parameters contribute heavily to the VRAM usage. The outcome of the experiments shows that model 1B parameter consumes more than 2GB VRAM when loaded for inference. When model fine-tuning/training is being carried out, VRAM consumption increases by 2x to 4x.
 3. Not all models are suitable for fine-tuning with datasets. Experiments show `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
 4. GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16.
@@ -87,14 +87,14 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 #### <a name="toc_3"></a>3.1 Dataset & Model
 
-- You may download the model into the local folder or pinpoint the model in the code so that the API will connect and download directly from 🤗 site.<br> 
+- You may download the model (using curl) into the local folder or pinpoint the model in the code so that the API will connect and download directly from 🤗 site.<br> 
 &nbsp;a. `bigscience/bloom-1b1`<br>
 &nbsp;b. `tiiuae/falcon-7b`<br>
 &nbsp;c. `Salesforce/codegen2-1B`<br>
 
-- You may download the dataset into the local folder or pinpoint the dataset in the code so that the API will connect and download directly from 🤗 site.<br> 
-&nbsp;a. Dataset for fine-tuning: <br> 
-&nbsp;b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. C4 is a large-scale, multilingual collection of web text gathered from the Common Crawl project. <br> 
+- You may download the dataset (using curl) into the local folder or pinpoint the dataset in the code so that the API will connect and download directly from 🤗 site.<br> 
+&nbsp;a. Dataset for fine-tuning: `Shreyasrp/Text-to-SQL`<br> 
+&nbsp;b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized as only certain datasets are allowed.<br> 
 
 #### <a name="toc_4"></a>3.2 CML Session
 
