@@ -41,7 +41,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 - Graph below depicts the GPU memory utilization when carrying out specific LLM task. This graph is computed based on the following tables.
 
-<img width="899" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/72016fe9-9d72-438f-9e0b-52fff3f3d76d">
+<img width="901" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/3a30ab71-29b3-49d8-b070-0189c43f64cc"><br>
 
 - Table below summarizes the benchmark result of the following tasks using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
 
