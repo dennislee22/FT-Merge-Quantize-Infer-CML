@@ -38,7 +38,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
  
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
-- Graph below depicts the GPU memory utilization when carrying out specific LLM task. This graph is computed based on the following tables.
+- Graph below depicts the GPU memory utilization during a specific stage. This graph is computed based on the results obtained from the experiments as detailed in the tables below.
 
 <img width="901" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/3a30ab71-29b3-49d8-b070-0189c43f64cc"><br>
 
