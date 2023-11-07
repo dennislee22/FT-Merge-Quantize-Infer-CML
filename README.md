@@ -30,7 +30,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 1. To create a LLM that is capable to achieving an AI task with specific dataset, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest the model to achieve satisfactory results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined datasets, thereby substantially decreasing the computational resources and time.
 2. Experiments were carried out using CML (Cloudera Machine Learning) with the following codes to demonstrate end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference. The experiments made use of `Text-to-SQL` dataset to train the model translating plain English into SQL query statement. With the correct prompt, the fine-tuned model should be able to produce expected results (with the correct prompt) based on the supervised learning.<br><br>
-&nbsp;a. `ft-trl-train.ipynb`: Run the code cell-by-cell to fine-tune the base model with local dataset using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
+&nbsp;a. `ft-merge-qt.ipynb`: Run the code cell-by-cell to fine-tune the base model with local dataset using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
 &nbsp;b. `quantize_model.ipynb`: You may choose to quantize your model (post-training) in 8, 4, or even 2 bits using `auto-gptq` library.<br>
 &nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br><br>
 5. The experiments also showcase the behaviour of the quantization techniques. Quantization allows model to be loaded into VRAM with constrained capacity. `GPTQ` is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on the scoring standards such as MMLU and HellaSwag. `BitsAndBytes` (zero-shot quantization) helps further by applying 8-bit or even 4-bit quantization to model in the VRAM to facilitate model training. 
@@ -112,7 +112,7 @@ pip install -r requirements.txt
 
 #### <a name="toc_6"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
+- Use this Jupyter code `ft-merge-qt.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
   
 - Code Snippet:
 ```
@@ -305,7 +305,7 @@ use_cuda_fp16: true
 
 #### <a name="toc_9"></a>5.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
+- Use this Jupyter code `ft-merge-qt.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
  
 - Code Snippet:
 ```
@@ -466,7 +466,7 @@ use_cuda_fp16: true
 
 #### <a name="toc_13"></a>6.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
+- Use this Jupyter code `ft-merge-qt.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
 
 - Code Snippet:
 ```
@@ -675,7 +675,7 @@ vocab_size: 65024
 
 #### <a name="toc_17"></a>7.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
+- Use this Jupyter code `ft-merge-qt.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
   
 - Code Snippet:
 ```
