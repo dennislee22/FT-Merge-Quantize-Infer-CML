@@ -743,3 +743,8 @@ port,,vt,(vt((var(,st#
 
 ### <a name="toc_18"></a>8. Bonus: Use Custom Gradio for Inference
 
+- Run this Jupyter code `gradio_infer.ipynb` to run inference on a specific model using custom Gradio interface.
+- This Gradio interface is designed to compare the inference results between the base model and the fine-tuned/trained model.
+- It also displays the GPU memory status after loading the selected model successfully. User experience is depicted below.
+
+<p align="left"><img src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/blob/main/gradio_infer.gif" width="500"></p>
