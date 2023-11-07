@@ -42,7 +42,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 <img width="901" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/3a30ab71-29b3-49d8-b070-0189c43f64cc"><br>
 
-- Table below summarizes the benchmark result of the following tasks using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
+- Tables below summarize the benchmark result when running the experiments using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
 
 &nbsp;&nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB). OOM = Out-Of-Memory.<br>
 
@@ -63,7 +63,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 | bloom-7b1  | auto-gptq 8-bit     | ~35 mins                | Good              |
 | falcon-7b  | auto-gptq 8-bit     | ~22 mins                | Good              |
 
-&nbsp;&nbsp;c. Table below shows the benchmark result of VRAM (A100-PCIE-40GB) memory occupied during fine-tuning to inference stage with different models.
+&nbsp;&nbsp;c. Table below shows the amount of memory (A100-PCIE-40GB) occupied during specific experiment stage with different models.
 
 | Model     | Fine-Tune Technique| Load (Before Fine-Tune) | During Training  | Inference Merged Model | During Quantization | Inference 8-bit GPTQ Model |
 | :---      |     :---:          |   ---:          | :---             |     :---:              |   ---:              | ---:                        |                    
