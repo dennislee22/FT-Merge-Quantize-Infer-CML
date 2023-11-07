@@ -41,19 +41,33 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 - Table below summarizes the benchmark result of the following task using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
 &nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB).<br>
-&nbsp;a. Time taken to quantize the fine-tuned model with auto-GPTQ technique.<br>
+&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model with auto-GPTQ technique.<br>
 
-| Model     | Fine-Tune Technique | Fine-Tune Duration | Quantization Technique | Quantization Duration |
-| :---      |     :---:           |   ---:             | :---                   |:---                   |
-| bloom-1b  | No Quantization     | ~12 mins           | auto-gptq 8-bit        | ~5 mins               |
-| bloom-1b  | 8-bit BitsAndBytes  | OOM                | auto-gptq 8-bit        | ~5 mins               |
+| Model     | Fine-Tune Technique | Fine-Tune Duration | Inference Result     |
+| :---      |     :---:           |   ---:             | :---                 |
+| bloom-1b1  | No Quantization     | ~12 mins           | Good                |
+| bloom-7b1  | No Quantization    | OOM                | N/A                  |
+| bloom-7b1  | 4-bit BitsAndBytes  | ~83 mins          | Good                 |
+| falcon-7b  | No Quantization    | OOM                | N/A                  |
+| falcon-7b  | 8-bit BitsAndBytes  | ~65 mins          | Good                 |
+| codegen2-1B  | No Quantization    | ~12 mins         | Bad                  |
+
+| Model      | Quantization Technique| Quantization Duration | Inference Result  |
+| :---       |     :---:           |   ---:                  | :---              |
+| bloom-1b1  | auto-gptq 8-bit     | ~5 mins                 | Bad               |
+| bloom-7b1  | auto-gptq 8-bit     | ~35 mins                | Good              |
+| falcon-7b  | auto-gptq 8-bit     | ~22 mins                | Good              |
 
 - Table below shows the benchmark result of VRAM (A100-PCIE-40GB) memory occupied along ranging from fine-tuning to inference stage for different LLM types.
 
 | Model     | Fine-Tune Technique| Before Training | During Training  | Inference Merged Model | During Quantization | Inference 8-bit GPTQ Model |
 | :---      |     :---:          |   ---:          | :---             |     :---:              |   ---:              | ---:                        |                    
-| bloom-1b  | No Quantization    | ~4.5G           |~21G              | ~6G                    | ~6G                 | ~2G                        |
-| bloom-1b  | BitsAndBytes       | ~4.5G           |~21G              | ~21G                   | ~6G                 | ~2G                        |
+| bloom-1b1  | No Quantization    | ~4.5G           |~21G              | ~6G                   | ~6G                 | ~2G                         |
+| bloom-7b1  | No Quantization    | ~27G           |OOM             | N/A                   | N/A                  | N/A                         |
+| bloom-7b1 | 4-bit BitsAndBytes  | ~6G           |~17G              | ~31G                   | ~23G                 | ~9G                       |
+| falcon-7b  | No Quantization    | ~28G           |OOM             | N/A                   | N/A                  | N/A                         |
+| falcon-7b | 8-bit BitsAndBytes  | ~8G           |~16G              | ~28G                   | ~24G                 | ~8G                       |
+| bloom-1b1  | No Quantization    | ~4.5G           |~16G              | ~5G                   | N/A                 | N/A                         |
 
 - Quantization: A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
   
