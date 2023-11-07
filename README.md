@@ -24,7 +24,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 [7. Salesforce/codegen2-1B](#toc_16)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_17)<br>
 [8. Bonus: Use Custom Gradio for Inference](#toc_18)<br>
-[//]: # (/TOC)
+
 
 ### <a name="toc_0"></a>1. Objective
 
