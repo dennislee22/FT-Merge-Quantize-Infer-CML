@@ -28,15 +28,15 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 ### <a name="toc_0"></a>1. Objective
 
-1. To create a LLM that is capable to achieving an AI task with specific datasets, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest until reaching acceptable results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined datasets, thereby significantly decreasing the computational resource and time.
-2. Quantization allows model to be loaded into VRAM with constrained capacity. `bitsandbytes` (zero-shot quantization) is a python library for applying 8-bit or even 4-bit quantization to model. GPTQ is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on benchmark standards such as MMLU and HellaSwag.
+1. To create a LLM that is capable to achieving an AI task with specific dataset, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest the model to achieve satisfactory results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined datasets, thereby substantially decreasing the computational resources and time.
+2. Quantization allows model to be loaded into VRAM with constrained capacity. `BitsAndBytes` (zero-shot quantization) is a python library for applying 8-bit or even 4-bit quantization to model. GPTQ is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on benchmark standards such as MMLU and HellaSwag.
 3. `Text-to-SQL` dataset is selected in this experiment to do supervised learning with the correct prompt.
 4. You can run the following codes to explore the end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference.<br><br>
 &nbsp;a. `ft-trl-train.ipynb`: Run this cell by cell to fine-tune the base model with local datasets using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
 &nbsp;b. `quantize_model.ipynb`: You may choose to quantize your model (post-training) in 8, 4, or even 2 bits using `auto-gptq` library.<br>
 &nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br><br>
 5. Experiments were carried out using `bloom`, `falcon` and `codegen2` models with 1B to 7B parameters. The idea is to find out the actual GPU memory consumption when carrying out specific task in the above PEFT fine-tuning lifecycle. Results are detailed in the following section.
-6. These results can also be served as the GPU buying guide to achieve a specific LLM use case.
+6. These results can also serve as the GPU buying guide to achieve a specific LLM use case.
  
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
