@@ -120,7 +120,7 @@ pip install -r requirements.txt
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load model before fine-tuning/training starts:
+- Load the model into the VRAM before running the fine-tuning/training process. Here's the result:
 ```
 Base Model Memory Footprint in VRAM: 4063.8516 MB
 --------------------------------------
@@ -313,7 +313,7 @@ use_cuda_fp16: true
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load model into VRAM before fine-tuning/training starts:
+- Load the model into VRAM before starting the fine-tuning/training process. Here's the result:
 ```
 Base Model Memory Footprint in VRAM: 26966.1562 MB
 --------------------------------------
@@ -346,7 +346,7 @@ bnb_config = BitsAndBytesConfig(
 base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
-- Load the model into VRAM before fine-tuning/training starts:
+- Load the model into VRAM before running the fine-tuning/training process. Here's the result:
 ```
 Base Model Memory Footprint in VRAM: 4843.0781 MB
 --------------------------------------
@@ -474,7 +474,7 @@ use_cuda_fp16: true
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load model into VRAM before fine-tuning/training starts:
+- Load model into VRAM before running the fine-tuning/training process. Here's the result:
 ```
 Base Model Memory Footprint in VRAM: 26404.2729 MB
 --------------------------------------
@@ -505,7 +505,7 @@ bnb_config = BitsAndBytesConfig(
 base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
-- Load the model into VRAM before fine-tuning/training starts:
+- Load the model into VRAM before running the fine-tuning/training process. Here's the result:
 ```
 Base Model Memory Footprint in VRAM: 6883.1384 MB
 --------------------------------------
@@ -683,7 +683,7 @@ vocab_size: 65024
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load model before fine-tuning/training starts:
+- Load the model in the VRAM before running the fine-tuning/training process. Here's the result:
 ```
 Base Model Memory Footprint in VRAM: 3937.0859 MB
 --------------------------------------
