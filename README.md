@@ -77,7 +77,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 **Summary:**
 1. LLM fine-tuning and quantization are VRAM-intensive activities. If you are buying a GPU for fine-tuning purposes, please take note of the benchmark results.
-2. During model training, the model states such as optimizer states, gradients, and parameters contribute heavily to the VRAM usage. The outcome of the experiments shows that model 1B parameter consumes more than 2GB VRAM when loaded for inference. When model fine-tuning/training is being carried out, VRAM consumption increases by 2x to 4x. Training a model without quantization (fp32) has a high memory overhead. 
+2. During model training, the model states such as optimizer, gradients, and parameters contribute heavily to the VRAM usage. The outcome of the experiments shows that model 1B parameter consumes more than 2GB VRAM when loaded for inference. When model fine-tuning/training is being carried out, VRAM consumption increases by 2x to 4x. Training a model without quantization (fp32) has a high memory overhead. Try reducing the batch size in the event of hitting OOM when loading the model.
 3. During model inference, each billion parameters consumes 4GB memory in FP32 precision, 2GB in FP16, and 1GB in int8, all excluding additional overhead (estimated ≤ 20%).
 4. When loading a model (without quantization) with OOM error, `BitsAndBytes` quantization allows the model to fit into the VRAM but at the expense of lower precision. Despite that limitation, the result was acceptable, depending on the use cases. As expected, `4-bit BitsAndBytes` took longer duration to train compared to `8-bit BitsAndBytes` setting.
 5. `auto-gptq` post-quantization mechanism helps to reduce the model size permanently.
