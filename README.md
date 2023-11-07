@@ -40,8 +40,8 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
 - Table below summarizes the benchmark result of the following task using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
+
 &nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB).<br>
-&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model with auto-GPTQ technique.<br>
 
 | Model     | Fine-Tune Technique | Fine-Tune Duration | Inference Result     |
 | :---      |     :---:           |   ---:             | :---                 |
@@ -51,6 +51,8 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 | falcon-7b  | No Quantization    | OOM                | N/A                  |
 | falcon-7b  | 8-bit BitsAndBytes  | ~65 mins          | Good                 |
 | codegen2-1B  | No Quantization    | ~12 mins         | Bad                  |
+
+&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model with auto-GPTQ technique.<br>
 
 | Model      | Quantization Technique| Quantization Duration | Inference Result  |
 | :---       |     :---:           |   ---:                  | :---              |
