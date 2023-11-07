@@ -228,7 +228,7 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 
 #### <a name="toc_7"></a>4.2. Quantize (GPTQ 8-bit) > Inference
 
-- In CML session, run this Jupyter code [quantize_model.ipynb](quantize_model.ipynb) to quantize the merged model. RUn [infer_Qmodel.ipynb](infer_Qmodel.ipynb) to perform a simple inference on the quantized model.
+- In CML session, run this Jupyter code [quantize_model.ipynb](quantize_model.ipynb) to quantize the merged model. Run [infer_Qmodel.ipynb](infer_Qmodel.ipynb) to perform a simple inference on the quantized model.
 
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
@@ -402,7 +402,7 @@ SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 
 #### <a name="toc_11"></a>5.3. Quantize (GPTQ 8-bit) > Inference
 
-- In CML session, run this Jupyter code [quantize_model.ipynb](quantize_model.ipynb) to quantize the merged model. RUn [infer_Qmodel.ipynb](infer_Qmodel.ipynb) to perform a simple inference on the quantized model.
+- In CML session, run this Jupyter code [quantize_model.ipynb](quantize_model.ipynb) to quantize the merged model. Run [infer_Qmodel.ipynb](infer_Qmodel.ipynb) to perform a simple inference on the quantized model.
   
 - During quantization:
 <img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe">
@@ -592,7 +592,7 @@ The result shows the titles of the books whose writer is not Dennis Lee.
 
 #### <a name="toc_15"></a>6.3. Quantize (GPTQ 8-bit) > Inference
 
-- In CML session, run this Jupyter code [quantize_model.ipynb](quantize_model.ipynb) to quantize the merged model. RUn [infer_Qmodel.ipynb](infer_Qmodel.ipynb) to perform a simple inference on the quantized model.
+- In CML session, run this Jupyter code [quantize_model.ipynb](quantize_model.ipynb) to quantize the merged model. Run [infer_Qmodel.ipynb](infer_Qmodel.ipynb) to perform a simple inference on the quantized model.
 
 - During quantization:
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/116479a1-2941-485d-953d-63791e024ff7">
