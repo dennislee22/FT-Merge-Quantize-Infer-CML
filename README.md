@@ -23,36 +23,30 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;&nbsp;&nbsp;&nbsp;[6.3. Quantize (GPTQ 8-bit) > Inference](#toc_15)<br>
 [7. Salesforce/codegen2-1B](#toc_16)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_17)<br>
-
+[8. Bonus: Use Custom Gradio for Inference](#toc_18)<br>
 [//]: # (/TOC)
 
 ### <a name="toc_0"></a>1. Objective
 
-1. To create a LLM that is capable to achieving an AI task with specific datasets, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest until reaching acceptable results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters yet achieving comparable performance to standard fine-tuning with the defined datasets, thereby significantly decreasing the computational resource and time.
-2. Quantization According to https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard, the quantized is able to infer without **significant** results degradation and quicker inference speed.
-3. The end-to-end lifecycle of fine-tuning a base model with the datasets, merge it, quantize it and finally inference can be explored using the following codes in this repository.
+1. To create a LLM that is capable to achieving an AI task with specific datasets, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest until reaching acceptable results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined datasets, thereby significantly decreasing the computational resource and time.
+2. Quantization allows model to be loaded into VRAM with constrained capacity. `bitsandbytes` (zero-shot quantization) is a python library for applying 8-bit or even 4-bit quantization to model. GPTQ is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on benchmark standards such as MMLU and HellaSwag.
+3. `Text-to-SQL` dataset is selected in this experiment to do supervised learning with the correct `prompt`.
+4. You can run the following codes to explore the end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference.<br><br>
 &nbsp;a. `ft-trl-train.ipynb`: Run this cell by cell to fine-tune the base model with local datasets using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
-&nbsp;b. `quantize_model.ipynb`: You may choose to quantize your model in 8, 4, or even 2 bits using `auto-gptq` library.<br>
-&nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br>
-5. Experiments were carried out to find out the actual GPU memory consumption when carrying out 
-- In the event that you have limited GPU resources or even have no GPU in your infrastructure landscape, you may run your GenAI application using quantized models. This articles focuses on how to quantize your language models in 8, 4, or even 2 bits without **significant** performance degradation and quicker inference speed, with the help of Transformers API.
-GPTQ, a Post-Training Quantization (PTQ) technique.
-- GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16. During inference, weights are dequantized on the fly and the actual compute is performed in float16.
-- bitsandbytes (zero-shot quantization)
-
-- The latest way to train big models using the newest NVIDIA graphics cards uses a method known as mixed-precision (FP16/32) training. FP32 is called full precision (4 bytes), while FP16 are referred to as half-precision (2 bytes). Here, important model components like parameters and activations are stored as FP16. This storage method allows these graphics cards to process large amounts of data very quickly.
-- During this training process, both the forward and backward steps are done using FP16 weights and activations. However, to properly calculate and apply the updates at the end of the backward step, the mixed-precision optimizer keeps an FP32 copy of the parameters and all other states used in the optimizer.
-
-
+&nbsp;b. `quantize_model.ipynb`: You may choose to quantize your model (post-training) in 8, 4, or even 2 bits using `auto-gptq` library.<br>
+&nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br><br>
+5. Experiments were carried out using `bloom`, `falcon` and `codegen2` models with 1B to 7B parameters. The idea is to find out the actual GPU memory consumption when carrying out specific task in the above PEFT fine-tuning lifecycle. Results are detailed in the following section.
+6. These results can also be used to determine the sizing guide for buying a GPU card to achieve your use cases.
+ 
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
-- Graph below depicts the GPU memory utilization when carrying out different LLM tasks.
+- Graph below depicts the GPU memory utilization when carrying out specific LLM task. This graph is computed based on the following tables.
 
 <img width="899" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/72016fe9-9d72-438f-9e0b-52fff3f3d76d">
 
 - Table below summarizes the benchmark result of the following tasks using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
 
-&nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB).<br>
+&nbsp;&nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB). OOM = Out-Of-Memory.<br>
 
 | Model     | Fine-Tune Technique | Fine-Tune Duration | Inference Result     |
 | :---      |     :---:           |   ---:             | :---                 |
@@ -63,7 +57,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 | falcon-7b  | 8-bit BitsAndBytes  | ~65 mins          | Good                 |
 | codegen2-1B  | No Quantization    | ~12 mins         | Bad                  |
 
-&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model with auto-GPTQ technique.<br>
+&nbsp;&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model with `auto-GPTQ` technique.<br>
 
 | Model      | Quantization Technique| Quantization Duration | Inference Result  |
 | :---       |     :---:           |   ---:                  | :---              |
@@ -71,7 +65,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 | bloom-7b1  | auto-gptq 8-bit     | ~35 mins                | Good              |
 | falcon-7b  | auto-gptq 8-bit     | ~22 mins                | Good              |
 
-- Table below shows the benchmark result of VRAM (A100-PCIE-40GB) memory occupied along ranging from fine-tuning to inference stage for different LLM types.
+&nbsp;&nbsp;c. Table below shows the benchmark result of VRAM (A100-PCIE-40GB) memory occupied during fine-tuning to inference stage with different models.
 
 | Model     | Fine-Tune Technique| Load (Before Fine-Tune) | During Training  | Inference Merged Model | During Quantization | Inference 8-bit GPTQ Model |
 | :---      |     :---:          |   ---:          | :---             |     :---:              |   ---:              | ---:                        |                    
@@ -80,24 +74,28 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 | bloom-7b1 | 4-bit BitsAndBytes  | ~6G           |~17G              | ~31G                   | ~23G                 | ~9G                       |
 | falcon-7b  | No Quantization    | ~28G           |OOM             | N/A                   | N/A                  | N/A                         |
 | falcon-7b | 8-bit BitsAndBytes  | ~8G           |~16G              | ~28G                   | ~24G                 | ~8G                       |
-| bloom-1b1  | No Quantization    | ~4.5G           |~16G              | ~5G                   | N/A                 | N/A                         |
+| codegen2-1B  | No Quantization    | ~4.5G           |~16G              | ~5G                   | N/A                 | N/A                         |
 
 **Summary:**
-1. LLM fine-tuning and quantization are VRAM-intensive activities. Although the typical GPU memory computation is 1. A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
-2. During model training, the model states such as optimizer states, gradients, and parameters contribute heavily to the VRAM usage. The outcome of the experiments shows that model 1B parameter consumes more than 2GB VRAM when loaded for inference. When model fine-tuning/training is being carried out, VRAM consumption increases by 4-folds.
+1. LLM fine-tuning and quantization are VRAM-intensive activities. If you are buying a GPU for fine-tuning purposes, please take note of the benchmark results.
+2. During model training, the model states such as optimizer states, gradients, and parameters contribute heavily to the VRAM usage. The outcome of the experiments shows that model 1B parameter consumes more than 2GB VRAM when loaded for inference. When model fine-tuning/training is being carried out, VRAM consumption increases by 2x to 4x.
+3. Not all models are suitable for fine-tuning with datasets. Experiments show `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
+4. CPU cores are heavily used when saving/copying the quantized model.
+5. GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16.
+6. During the training process using `BitsAndBytes`, both the forward and backward steps are done using FP16 weights and activations. 
   
 ### <a name="toc_2"></a>3. Preparation
 
 #### <a name="toc_3"></a>3.1 Dataset & Model
 
-- Download or use the following the following model directly from 🤗.<br> 
+- You may download the model (using curl) into the local folder or pinpoint the model in the code so that the API will connect and download directly from 🤗 site.<br> 
 &nbsp;a. `bigscience/bloom-1b1`<br>
 &nbsp;b. `tiiuae/falcon-7b`<br>
 &nbsp;c. `Salesforce/codegen2-1B`<br>
 
-- Download or use the following sample dataset directly from 🤗. <br> 
-&nbsp;a. Dataset for fine-tuning: <br> 
-&nbsp;b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized. C4 is a large-scale, multilingual collection of web text gathered from the Common Crawl project. <br> 
+- You may download the dataset (using curl) into the local folder or pinpoint the dataset in the code so that the API will connect and download directly from 🤗 site.<br> 
+&nbsp;a. Dataset for fine-tuning: `Shreyasrp/Text-to-SQL`<br> 
+&nbsp;b. Dataset for quantization: Quantization requires sample data to calibrate and enhance quality of the quantization. In this benchmark test, [C4 dataset](https://huggingface.co/datasets/c4) is utilized as only certain datasets are allowed.<br> 
 
 #### <a name="toc_4"></a>3.2 CML Session
 
@@ -113,7 +111,7 @@ pip install -r requirements.txt
 
 #### <a name="toc_6"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code to fine-tune, merge and perform a simple inference on the merged model.
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
   
 - Code Snippet:
 ```
@@ -227,6 +225,9 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 ```
 
 #### <a name="toc_7"></a>4.2. Quantize (GPTQ 8-bit) > Inference
+
+- Use this Jupyter code `quantize_model.ipynb` to quantize the merged model. Use this `infer_Qmodel.ipynb` code to perform a simple inference on the quantized model.
+
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
@@ -303,6 +304,8 @@ use_cuda_fp16: true
 
 #### <a name="toc_9"></a>5.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
+- 
 - Code Snippet:
 ```
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
@@ -396,6 +399,9 @@ SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 ```
 
 #### <a name="toc_11"></a>5.3. Quantize (GPTQ 8-bit) > Inference
+
+- Use this Jupyter code `quantize_model.ipynb` to quantize the merged model. Use this `infer_Qmodel.ipynb` code to perform a simple inference on the quantized model.
+- 
 - During quantization:
 <img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe">
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/2b47132c-c0e1-406c-b331-25611f1402bb"><br>
@@ -458,6 +464,8 @@ use_cuda_fp16: true
 ### <a name="toc_12"></a>6. `tiiuae/falcon-7b`
 
 #### <a name="toc_13"></a>6.1. Fine-Tune (w/o Quantization) > Merge > Inference
+
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
 
 - Code Snippet:
 ```
@@ -581,6 +589,9 @@ The result shows the titles of the books whose writer is not Dennis Lee.
 ```
 
 #### <a name="toc_15"></a>6.3. Quantize (GPTQ 8-bit) > Inference
+
+- Use this Jupyter code `quantize_model.ipynb` to quantize the merged model. Use this `infer_Qmodel.ipynb` code to perform a simple inference on the quantized model.
+
 - During quantization:
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/116479a1-2941-485d-953d-63791e024ff7">
 
@@ -663,7 +674,7 @@ vocab_size: 65024
 
 #### <a name="toc_17"></a>7.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code `` to fine-tune, merge and perform a simple inference on the merged model.
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
   
 - Code Snippet:
 ```
@@ -728,3 +739,7 @@ Fine-tuned Model Result :
 Base Model Result :
 port,,vt,(vt((var(,st#
 ```
+
+
+### <a name="toc_18"></a>8. Bonus: Use Custom Gradio for Inference
+
