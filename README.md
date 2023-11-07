@@ -307,7 +307,7 @@ use_cuda_fp16: true
 #### <a name="toc_9"></a>5.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
 - Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
-- 
+ 
 - Code Snippet:
 ```
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
@@ -346,7 +346,7 @@ bnb_config = BitsAndBytesConfig(
 base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
-- Load model into VRAM before fine-tuning/training starts:
+- Load the model into VRAM before fine-tuning/training starts:
 ```
 Base Model Memory Footprint in VRAM: 4843.0781 MB
 --------------------------------------
@@ -403,7 +403,7 @@ SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 #### <a name="toc_11"></a>5.3. Quantize (GPTQ 8-bit) > Inference
 
 - Use this Jupyter code `quantize_model.ipynb` to quantize the merged model. Use this `infer_Qmodel.ipynb` code to perform a simple inference on the quantized model.
-- 
+  
 - During quantization:
 <img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe">
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/2b47132c-c0e1-406c-b331-25611f1402bb"><br>
@@ -505,7 +505,7 @@ bnb_config = BitsAndBytesConfig(
 base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
-- Load model into VRAM before fine-tuning/training starts:
+- Load the model into VRAM before fine-tuning/training starts:
 ```
 Base Model Memory Footprint in VRAM: 6883.1384 MB
 --------------------------------------
@@ -745,7 +745,7 @@ port,,vt,(vt((var(,st#
 
 ### <a name="toc_18"></a>8. Bonus: Use Custom Gradio for Inference
 
-- Run this Jupyter code `gradio_infer.ipynb` to run inference on a specific model using custom Gradio interface.
+- Execute this Jupyter code `gradio_infer.ipynb` to run inference on a specific model using the custom Gradio interface.
 - This Gradio interface is designed to compare the inference results between the base model and the fine-tuned/trained model.
 - It also displays the GPU memory status after loading the selected model successfully. User experience is depicted below.
 
