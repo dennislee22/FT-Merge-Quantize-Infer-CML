@@ -80,7 +80,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 3. During model inference, each billion parameters consumes 4GB memory in FP32 precision, 2GB in FP16, and 1GB in int8, all excluding additional overhead (estimated ≤ 20%).
 4. When loading a model (without quantization) with OOM error, `BitsAndBytes` quantization allows the model to fit into the VRAM but at the expense of lower precision. Despite that limitation, the result was acceptable, depending on the use cases. As expected, `4-bit BitsAndBytes` took longer duration to train compared to `8-bit BitsAndBytes` setting.
 5. `auto-gptq` post-quantization mechanism helps to reduce the model size permanently.
-6. Not all models are suitable for fine-tuning with the same dataset. Experiments show `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
+6. Not all models are suitable for fine-tuning with the same dataset. Experiments show that `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
 7. CPU cores are heavily used when saving/copying the quantized model.
 8. GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16.
 9. During the training process using `BitsAndBytes` config, the forward and backward steps are done using FP16 weights and activations. 
