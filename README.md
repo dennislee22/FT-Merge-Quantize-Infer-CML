@@ -23,7 +23,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;&nbsp;&nbsp;&nbsp;[6.3. Quantize (GPTQ 8-bit) > Inference](#toc_15)<br>
 [7. Salesforce/codegen2-1B](#toc_16)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. Fine-Tune (w/o Quantization) > Merge > Inference](#toc_17)<br>
-
+[8. Bonus: Use Custom Gradio for Inference](#toc_18)<br>
 [//]: # (/TOC)
 
 ### <a name="toc_0"></a>1. Objective
@@ -80,8 +80,9 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 1. LLM fine-tuning and quantization are VRAM-intensive activities. If you are buying a GPU for fine-tuning purposes, please take note of the benchmark results.
 2. During model training, the model states such as optimizer states, gradients, and parameters contribute heavily to the VRAM usage. The outcome of the experiments shows that model 1B parameter consumes more than 2GB VRAM when loaded for inference. When model fine-tuning/training is being carried out, VRAM consumption increases by 2x to 4x.
 3. Not all models are suitable for fine-tuning with datasets. Experiments show `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
-4. GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16.
-5. During the training process using `BitsAndBytes`, both the forward and backward steps are done using FP16 weights and activations. 
+4. CPU cores are heavily used when saving/copying the quantized model.
+5. GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16.
+6. During the training process using `BitsAndBytes`, both the forward and backward steps are done using FP16 weights and activations. 
   
 ### <a name="toc_2"></a>3. Preparation
 
@@ -738,3 +739,7 @@ Fine-tuned Model Result :
 Base Model Result :
 port,,vt,(vt((var(,st#
 ```
+
+
+### <a name="toc_18"></a>8. Bonus: Use Custom Gradio for Inference
+
