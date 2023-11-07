@@ -55,7 +55,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 | falcon-7b  | 8-bit BitsAndBytes  | ~65 mins          | Good                 |
 | codegen2-1B  | No Quantization    | ~12 mins         | Bad                  |
 
-&nbsp;&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model with `auto-GPTQ` technique.<br>
+&nbsp;&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model using `auto-GPTQ` technique.<br>
 
 | Model      | Quantization Technique| Quantization Duration | Inference Result  |
 | :---       |     :---:           |   ---:                  | :---              |
