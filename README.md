@@ -29,7 +29,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ### <a name="toc_0"></a>1. Objective
 
 1. To create a LLM that is capable to achieving an AI task with specific dataset, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest the model to achieve satisfactory results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined datasets, thereby substantially decreasing the computational resources and time.
-2. Experiments were carried out using the following codes to demonstrate end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference. The experiments made use of `Text-to-SQL` dataset to train the model translating plain English into SQL query statement. With the correct prompt, the fine-tuned model should be able to produce expected results (with the correct prompt) based on the supervised learning.<br><br>
+2. Experiments were carried out using CML (Cloudera Machine Learning) with the following codes to demonstrate end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference. The experiments made use of `Text-to-SQL` dataset to train the model translating plain English into SQL query statement. With the correct prompt, the fine-tuned model should be able to produce expected results (with the correct prompt) based on the supervised learning.<br><br>
 &nbsp;a. `ft-trl-train.ipynb`: Run the code cell-by-cell to fine-tune the base model with local dataset using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
 &nbsp;b. `quantize_model.ipynb`: You may choose to quantize your model (post-training) in 8, 4, or even 2 bits using `auto-gptq` library.<br>
 &nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br><br>
@@ -80,8 +80,8 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 3. During model inference, each billion parameters consumes 4GB memory in FP32 precision, 2GB in FP16, and 1GB in int8, all excluding additional overhead (estimated ≤ 20%).
 4. When loading a model (without quantization) with OOM error, `BitsAndBytes` quantization allows the model to fit into the VRAM but at the expense of lower precision. Despite that limitation, the result was acceptable, depending on the use cases. As expected, `4-bit BitsAndBytes` took longer duration to train compared to `8-bit BitsAndBytes` setting.
 5. `auto-gptq` post-quantization mechanism helps to reduce the model size permanently.
-6. Not all models are suitable for fine-tuning with the same dataset. Experiments show that `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
-7. CPU cores are heavily used when saving/copying the quantized model.
+6. Not all pre-trained models are suitable for fine-tuning with the same dataset. Experiments show that `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
+7. CPU cores are heavily used when saving/copying the quantized model. You may enable CML's CPU bursting feature to speed up the process.
 8. GPTQ adopts a mixed int4/fp16 quantization scheme where weights are quantized as int4 while activations remain in float16.
 9. During the training process using `BitsAndBytes` config, the forward and backward steps are done using FP16 weights and activations. 
   
@@ -100,7 +100,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 #### <a name="toc_4"></a>3.2 CML Session
 
-- CML (Cloudera Machine Learning) runs on the Kubernetes platform. When a `CML session` is requested, CML instructs K8s to schedule and provision a pod with the required resource profile.
+- CML runs on the Kubernetes platform. When a `CML session` is requested, CML instructs K8s to schedule and provision a pod with the required resource profile.
 1. Create a CML project using Python 3.9 with Nvidia GPU runtime.
 2. Create a CML session (Jupyter) with the resource profile of 4CPU and 64GB memory and 1GPU.
 3. In the CML session, install the necessary Python packages.
