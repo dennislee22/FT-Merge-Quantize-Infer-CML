@@ -41,10 +41,10 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 - Table shows the benchmark result of fine-tuning the specific base model with **Text-to-SQL** dataset.
   
-| Model | Training | Duration | 
-| :---      |     :---:      |   ---: |
-| bloom-1b  | No quantization     | sec   |
-| bloom-1b  | BitsAndBytes      | sec     |
+| Model     | Fine-Tuning Technique | VRAM (before training) | Duration | VRAM (after training) VRAM (before training) |
+| :---      |     :---:       |   ---:   |
+| bloom-1b  | No Quantization | sec      |
+| bloom-1b  | BitsAndBytes    | sec      |
 
 - Quantization: A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
   
@@ -447,7 +447,7 @@ OutOfMemoryError: CUDA out of memory. Tried to allocate 1.11 GiB. GPU 0 has a to
 ```
 <img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/0e91da7b-f704-4b03-a824-b5391819a6c8"><br>
 
-#### <a name="toc_14"></a>6.2. Fine-Tune (w 8-bit) > Merge > Inference
+#### <a name="toc_14"></a>6.2. Fine-Tune (8-bit) > Merge > Inference
 
 - Code Snippet:
 ```
