@@ -91,7 +91,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 #### <a name="toc_3"></a>3.1 Dataset & Model
 
 - You may download the model (using curl) into the local folder or pinpoint the model in the code so that the API will connect and download directly from 🤗 site.<br> 
-&nbsp;a. `bigscience/bloom-1b1`<br>
+&nbsp;a. `bigscience/bloom-1b1` and `bigscience/bloom-7b1`<br>
 &nbsp;b. `tiiuae/falcon-7b`<br>
 &nbsp;c. `Salesforce/codegen2-1B`<br>
 
