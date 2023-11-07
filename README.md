@@ -749,4 +749,4 @@ port,,vt,(vt((var(,st#
 - This Gradio interface is designed to compare the inference results between the base model and the fine-tuned/trained model.
 - It also displays the GPU memory status after loading the selected model successfully. User experience is depicted below.
 
-<p align="left"><img src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/blob/main/images/gradio_infer.gif" width="500"></p>
+<p align="left"><img src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/blob/main/images/gradio_infer.gif" width="700"></p>
