@@ -37,7 +37,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br><br>
 5. Experiments were carried out using `bloom`, `falcon` and `codegen2` models with 1B to 7B parameters. The idea is to find out the actual GPU memory consumption when carrying out specific task in the above PEFT fine-tuning lifecycle. Results are detailed in the following section.
 6. These results can also be used to determine the sizing guide for buying a GPU card to achieve your use cases.
-
+ 
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
 - Graph below depicts the GPU memory utilization when carrying out specific LLM task. This graph is computed based on the following tables.
@@ -110,7 +110,7 @@ pip install -r requirements.txt
 
 #### <a name="toc_6"></a>4.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code to fine-tune, merge and perform a simple inference on the merged model.
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
   
 - Code Snippet:
 ```
@@ -224,6 +224,9 @@ CREATE TABLE book (Title VARCHAR, Writer VARCHAR). What are the titles of the bo
 ```
 
 #### <a name="toc_7"></a>4.2. Quantize (GPTQ 8-bit) > Inference
+
+- Use this Jupyter code `quantize_model.ipynb` to quantize the merged model. Use this `infer_Qmodel.ipynb` code to perform a simple inference on the quantized model.
+
 - During quantization:
 <img width="1059" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/414dca58-025a-48b2-93e4-816b5781e0ce">
 
@@ -300,6 +303,8 @@ use_cuda_fp16: true
 
 #### <a name="toc_9"></a>5.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
+- 
 - Code Snippet:
 ```
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
@@ -393,6 +398,9 @@ SELECT Title FROM book WHERE Writer <> "Dennis Lee"
 ```
 
 #### <a name="toc_11"></a>5.3. Quantize (GPTQ 8-bit) > Inference
+
+- Use this Jupyter code `quantize_model.ipynb` to quantize the merged model. Use this `infer_Qmodel.ipynb` code to perform a simple inference on the quantized model.
+- 
 - During quantization:
 <img width="971" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/8f0c7a71-a3b1-467f-a83c-0284e6e85dbe">
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/2b47132c-c0e1-406c-b331-25611f1402bb"><br>
@@ -455,6 +463,8 @@ use_cuda_fp16: true
 ### <a name="toc_12"></a>6. `tiiuae/falcon-7b`
 
 #### <a name="toc_13"></a>6.1. Fine-Tune (w/o Quantization) > Merge > Inference
+
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
 
 - Code Snippet:
 ```
@@ -578,6 +588,9 @@ The result shows the titles of the books whose writer is not Dennis Lee.
 ```
 
 #### <a name="toc_15"></a>6.3. Quantize (GPTQ 8-bit) > Inference
+
+- Use this Jupyter code `quantize_model.ipynb` to quantize the merged model. Use this `infer_Qmodel.ipynb` code to perform a simple inference on the quantized model.
+
 - During quantization:
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/116479a1-2941-485d-953d-63791e024ff7">
 
@@ -660,7 +673,7 @@ vocab_size: 65024
 
 #### <a name="toc_17"></a>7.1. Fine-Tune (w/o Quantization) > Merge > Inference
 
-- Use this Jupyter code `` to fine-tune, merge and perform a simple inference on the merged model.
+- Use this Jupyter code `ft-trl-train.ipynb` to fine-tune, merge and perform a simple inference on the merged/fine-tuned model.
   
 - Code Snippet:
 ```
