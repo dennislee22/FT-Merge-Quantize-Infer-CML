@@ -39,7 +39,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
-- Table below summarizes the benchmark result of the following task using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
+- Table below summarizes the benchmark result of the following tasks using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
 
 &nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB).<br>
 
@@ -62,7 +62,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 - Table below shows the benchmark result of VRAM (A100-PCIE-40GB) memory occupied along ranging from fine-tuning to inference stage for different LLM types.
 
-| Model     | Fine-Tune Technique| Before Training | During Training  | Inference Merged Model | During Quantization | Inference 8-bit GPTQ Model |
+| Model     | Fine-Tune Technique| Load (Before Fine-Tune) | During Training  | Inference Merged Model | During Quantization | Inference 8-bit GPTQ Model |
 | :---      |     :---:          |   ---:          | :---             |     :---:              |   ---:              | ---:                        |                    
 | bloom-1b1  | No Quantization    | ~4.5G           |~21G              | ~6G                   | ~6G                 | ~2G                         |
 | bloom-7b1  | No Quantization    | ~27G           |OOM             | N/A                   | N/A                  | N/A                         |
