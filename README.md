@@ -41,7 +41,7 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 - Table shows the benchmark result of fine-tuning the specific base model with **Text-to-SQL** dataset.
   
-| Model     | Fine-Tuning Technique | VRAM (before training) | Duration | VRAM (after training) VRAM (before training) |
+| Model     | Fine-Tuning Technique | VRAM (before training) | Duration | VRAM (after training) | VRAM (before training) |
 | :---      |     :---:       |   ---:   | :---      |     :---:       |   ---:   |
 | bloom-1b  | No Quantization | sec      |bloom-1b  | No Quantization | sec      |
 | bloom-1b  | BitsAndBytes    | sec      |bloom-1b  | No Quantization | sec      |
