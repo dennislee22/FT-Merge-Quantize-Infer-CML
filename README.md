@@ -1,7 +1,7 @@
 LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 ===
 
-<p align="left"><img src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/blob/main/peft.gif" width="600"></p>
+<p align="center"><img src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/blob/main/peft.gif" width="600"></p>
 
 ## <a name="toc_0"></a>Table of Contents
 [//]: # (TOC)
