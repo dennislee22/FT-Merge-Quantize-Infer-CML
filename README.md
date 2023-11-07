@@ -39,12 +39,21 @@ GPTQ, a Post-Training Quantization (PTQ) technique.
 
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
 
-- Table shows the benchmark result of fine-tuning the specific base model with **Text-to-SQL** dataset.
-  
-| Model     | Fine-Tuning Technique | VRAM (before training) | Duration | VRAM (after training) | VRAM (before training) |
-| :---      |     :---:       |   ---:   | :---      |     :---:       |   ---:   |
-| bloom-1b  | No Quantization | sec      |bloom-1b  | No Quantization | sec      |
-| bloom-1b  | BitsAndBytes    | sec      |bloom-1b  | No Quantization | sec      |
+- Table below summarizes the benchmark result of the following task using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
+&nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB).<br>
+&nbsp;a. Time taken to quantize the fine-tuned model with auto-GPTQ technique.<br>
+
+| Model     | Fine-Tune Technique | Fine-Tune Duration | Quantization Technique | Quantization Duration |
+| :---      |     :---:           |   ---:             | :---                   |:---                   |
+| bloom-1b  | No Quantization     | ~12 mins           | auto-gptq 8-bit        | ~5 mins               |
+| bloom-1b  | 8-bit BitsAndBytes  | OOM                | auto-gptq 8-bit        | ~5 mins               |
+
+- Table below shows the benchmark result of VRAM (A100-PCIE-40GB) memory occupied along ranging from fine-tuning to inference stage for different LLM types.
+
+| Model     | Fine-Tune Technique| Before Training | During Training  | Inference Merged Model | During Quantization | Inference 8-bit GPTQ Model |
+| :---      |     :---:          |   ---:          | :---             |     :---:              |   ---:              | ---:                        |                    
+| bloom-1b  | No Quantization    | ~4.5G           |~21G              | ~6G                    | ~6G                 | ~2G                        |
+| bloom-1b  | BitsAndBytes       | ~4.5G           |~21G              | ~21G                   | ~6G                 | ~2G                        |
 
 - Quantization: A quick check at the Open LLM Leaderboard reveals that performance degradation is quite minimal.
   
