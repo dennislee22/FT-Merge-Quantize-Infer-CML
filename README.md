@@ -103,9 +103,10 @@ OOM = Out-Of-Memory
 #### <a name="toc_4"></a>3.2 CML Session
 
 - CML runs on the Kubernetes platform. When a `CML session` is requested, CML instructs K8s to schedule and provision a pod with the required resource profile.
-1. Create a CML project using `Python 3.9` with `Nvidia GPU runtime`.
-2. Create a CML session (Jupyter) with the resource profile of 4CPU and 64GB memory and 1GPU.
-3. In the CML session, install the necessary Python packages.
+&nbsp;a. Create a CML project using `Python 3.9` with `Nvidia GPU runtime`.
+&nbsp;b. Create a CML session (Jupyter) with the resource profile of 4CPU and 64GB memory and 1GPU.
+&nbsp;c. In the CML session, install the necessary Python packages.
+
 ```
 pip install -r requirements.txt
 ```
