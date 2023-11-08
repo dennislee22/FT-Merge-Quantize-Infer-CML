@@ -32,7 +32,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 &nbsp;a. [ft-trl-train.ipynb](ft-trl-train.ipynb): Run the code cell-by-cell interactively to fine-tune the base model with local dataset using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
 &nbsp;b. [quantize_model.ipynb](ft-trl-train.ipynb): Quantize the model (post-training) in 8, or even 2 bits using `auto-gptq` library.<br>
-&nbsp;c. [infer_Qmodel.ipynb](ft-trl-train.ipynb): Run inference on the quantized model to validate the results.<br><br>
+&nbsp;c. [infer_Qmodel.ipynb](ft-trl-train.ipynb): Run inference on the quantized model to validate the results.<br>
 &nbsp;d. [gradio_infer.ipynb](gradio_infer.ipynb): You may use this custom Gradio interface to compare the inference results between the base and fine-tuned model.<br><br>
 
 5. The experiments also showcase the post-quantization outcome. Quantization allows model to be loaded into VRAM with constrained capacity. `GPTQ` is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on the scoring standards such as MMLU and HellaSwag. `BitsAndBytes` (zero-shot) helps further by applying 8-bit or even 4-bit quantization to model in the VRAM to facilitate model training. 
