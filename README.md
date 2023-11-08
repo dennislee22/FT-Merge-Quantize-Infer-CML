@@ -28,6 +28,16 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 ### <a name="toc_0"></a>1. Objective
 
+<<<<<<< HEAD
+1. To create a LLM that is capable of achieving an AI task with specific dataset, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest the model to achieve satisfactory results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined dataset, thereby substantially decreasing the computational resources and time.
+2. The provided iPython codes in this repository serve as a comprehensive illustration of the complete lifecycle for fine-tuning a particular Transformers-based model using specific datasets. This includes merging LLM with the trained adapters, quantization, and, ultimately, conducting inferences with the correct prompt. The outcomes of these experiments are detailed in the following section. These experiments utilize a Text-to-SQL dataset to train the model, enabling the translation of plain English into SQL query statements.<br><br>
+
+&nbsp;a. `ft-trl-train.ipynb`: Run the code cell-by-cell to fine-tune the base model with local dataset using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
+&nbsp;b. `quantize_model.ipynb`: You may choose to quantize your model (post-training) in 8, 4, or even 2 bits using `auto-gptq` library.<br>
+&nbsp;c. `infer_Qmodel.ipynb`: Run inference on the quantized model to validate the results.<br><br>
+
+5. The experiments also showcase the behaviour of the quantization techniques. Quantization allows model to be loaded into VRAM with constrained capacity. `GPTQ` is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on the scoring standards such as MMLU and HellaSwag. `BitsAndBytes` (zero-shot) helps further by applying 8-bit or even 4-bit quantization to model in the VRAM to facilitate model training. 
+=======
 1. To create a LLM that is capable to achieving an AI task with specific dataset, the traditional ML approach would need to train a model from the scratch. Study shows it would take nearly 300 years to train a GPT model using a single V100 GPU card. This excludes the iteration process to test, retrain and retest the model to achieve satisfactory results. This is where Parameter-Efficient Fine-tuning (PEFT) comes in handy. PEFT trains only a subset of the parameters with the defined datasets, thereby substantially decreasing the computational resources and time.
 2. Experiments were carried out using CML (Cloudera Machine Learning) with the following codes to demonstrate end-to-end lifecycle of fine-tuning a Transformers-based model with specific datasets, merge, quantize it and finally inference. The experiments made use of `Text-to-SQL` dataset to train the model translating plain English into SQL query statement. With the correct prompt, the fine-tuned model should be able to produce expected results (with the correct prompt) based on the supervised learning.<br><br>
 &nbsp;a. [ft-merge-qt.ipynb](ft-merge-qt.ipynb): Run the code cell-by-cell to fine-tune the base model with local dataset using TRL (Transformer Reinforcement Learning) mechanism. Merge the trained adapters with the base model. Subsequently, perform model inference to validate the results.<br>
@@ -35,6 +45,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 &nbsp;c. [infer_Qmodel.ipynb](infer_Qmodel.ipynb): Run inference on the quantized model to validate the results.<br>
 &nbsp;d. [gradio_infer.ipynb](gradio_infer.ipynb): You may use this custom Gradio interface to compare the inference results between the base and fine-tuned model.<br><br>
 5. The experiments also showcase the behaviour of the quantization techniques. Quantization allows model to be loaded into VRAM with constrained capacity. `GPTQ` is a post-training method to transform the fine-tuned model into a smaller footprint. According to [🤗 leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), quantized model is able to infer without significant results degradation based on the scoring standards such as MMLU and HellaSwag. `BitsAndBytes` (zero-shot quantization) helps further by applying 8-bit or even 4-bit quantization to model in the VRAM to facilitate model training. 
+>>>>>>> 6d5ce7461d15777949364487a718ad5a88b8eb9b
 6. Experiments were carried out using `bloom`, `falcon` and `codegen2` models with 1B to 7B parameters. The idea is to find out the actual GPU memory consumption when carrying out specific task in the above PEFT fine-tuning lifecycle. Results are detailed in the following section. These results can also serve as the GPU buying guide to achieve a specific LLM use case.
  
 #### <a name="toc_1"></a>2. Summary & Benchmark Score
@@ -43,9 +54,9 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 
 <img width="901" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/3a30ab71-29b3-49d8-b070-0189c43f64cc"><br>
 
-- Tables below summarize the benchmark result when running the experiments using Nvidia A100-PCIE-40GB on CML with Openshift (bare-metal):<br>
+- Tables below summarize the benchmark result when running the experiments using 1 unit of Nvidia A100-PCIE-40GB GPU on CML with Openshift (bare-metal):<br>
 
-&nbsp;&nbsp;a. Time taken to fine-tune different LLM with 10% of `Text-to-SQL` dataset (File size=20.7 MB). OOM = Out-Of-Memory.<br>
+&nbsp;&nbsp;a. Time taken to fine-tune different LLM with 10% of Text-to-SQL dataset (File size=20.7 MB):<br>
 
 | Model     | Fine-Tune Technique | Fine-Tune Duration | Inference Result     |
 | :---      |     :---:           |   ---:             | :---                 |
@@ -56,7 +67,9 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 | falcon-7b  | 8-bit BitsAndBytes  | ~65 mins          | Good                 |
 | codegen2-1B  | No Quantization    | ~12 mins         | Bad                  |
 
-&nbsp;&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model using `auto-GPTQ` technique.<br>
+OOM = Out-Of-Memory
+
+&nbsp;&nbsp;b. Time taken to quantize the fine-tuned (merged with PEFT adapters) model using `auto-GPTQ` technique:<br>
 
 | Model      | Quantization Technique| Quantization Duration | Inference Result  |
 | :---       |     :---:           |   ---:                  | :---              |
@@ -64,7 +77,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 | bloom-7b1  | auto-gptq 8-bit     | ~35 mins                | Good              |
 | falcon-7b  | auto-gptq 8-bit     | ~22 mins                | Good              |
 
-&nbsp;&nbsp;c. Table below shows the amount of memory (A100-PCIE-40GB) occupied during specific experiment stage with different models.
+&nbsp;&nbsp;c. Table below shows the amount of memory of a A100-PCIE-40GB GPU utilised during specific experiment stage with different models.
 
 | Model     | Fine-Tune Technique| Load (Before Fine-Tune) | During Training  | Inference Merged Model | During Quantization | Inference 8-bit GPTQ Model |
 | :---      |     :---:          |   ---:          | :---             |     :---:              |   ---:              | ---:                        |                    
@@ -79,7 +92,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 1. LLM fine-tuning and quantization are VRAM-intensive activities. If you are buying a GPU for fine-tuning purposes, please take note of the benchmark results.
 2. During model training, the model states such as optimizer, gradients, and parameters contribute heavily to the VRAM usage. The outcome of the experiments shows that model 1B parameter consumes more than 2GB VRAM when loaded for inference. When model fine-tuning/training is being carried out, VRAM consumption increases by 2x to 4x. Training a model without quantization (fp32) has a high memory overhead. Try reducing the batch size in the event of hitting OOM when loading the model.
 3. During model inference, each billion parameters consumes 4GB memory in FP32 precision, 2GB in FP16, and 1GB in int8, all excluding additional overhead (estimated ≤ 20%).
-4. When loading a model (without quantization) with OOM error, `BitsAndBytes` quantization allows the model to fit into the VRAM but at the expense of lower precision. Despite that limitation, the result was acceptable, depending on the use cases. As expected, `4-bit BitsAndBytes` took longer duration to train compared to `8-bit BitsAndBytes` setting.
+4. When loading a huge model (without quantization) with OOM error, `BitsAndBytes` quantization allows the model to fit into the VRAM but at the expense of lower precision. Despite that limitation, the result was acceptable, depending on the use cases. As expected, `4-bit BitsAndBytes` took longer duration to train compared to `8-bit BitsAndBytes` setting.
 5. `auto-gptq` post-quantization mechanism helps to reduce the model size permanently.
 6. Not all pre-trained models are suitable for fine-tuning with the same dataset. Experiments show that `falcon-7b` and `bloom-7b1` produce acceptable results but not for `codegen2-1B` model.
 7. CPU cores are heavily used when saving/copying the quantized model. You may enable CML's CPU bursting feature to speed up the process.
@@ -102,7 +115,7 @@ LLM: Fine-Tune > Merge > Quantize > Infer .. on CML
 #### <a name="toc_4"></a>3.2 CML Session
 
 - CML runs on the Kubernetes platform. When a `CML session` is requested, CML instructs K8s to schedule and provision a pod with the required resource profile.
-1. Create a CML project using Python 3.9 with Nvidia GPU runtime.
+1. Create a CML project using `Python 3.9` with `Nvidia GPU runtime`.
 2. Create a CML session (Jupyter) with the resource profile of 4CPU and 64GB memory and 1GPU.
 3. In the CML session, install the necessary Python packages.
 ```
@@ -120,7 +133,7 @@ pip install -r requirements.txt
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load the model into the VRAM before running the fine-tuning/training process. Here's the result:
+- Below shows the outcome after loading the model into the VRAM before running the fine-tuning/training code.
 ```
 Base Model Memory Footprint in VRAM: 4063.8516 MB
 --------------------------------------
@@ -202,7 +215,7 @@ torch.float32, 1065.3143 M, 100.00 %
 ```
 <img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/021a1854-f943-4257-9165-f90bde98c5e8"><br>
 
-- Run inference on the fine-tuned/merged model and the base model:
+- Run inference on the fine-tuned/merged model and the base model, compare the results.
 ```
 --------------------------------------
 Prompt:
@@ -250,7 +263,7 @@ torch.float16, 385.5053 M, 100.00 %
 ```
 <img width="975" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/75965ac1-81ce-4c5e-8aca-83246cf674ab"><br>
 
-- Run inference on the quantized model:
+- Run inference on the quantized model and check the result:
 ```
 --------------------------------------
 Prompt:
@@ -313,7 +326,7 @@ use_cuda_fp16: true
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load the model into VRAM before starting the fine-tuning/training process. Here's the result:
+- Below shows the outcome after loading the model into the VRAM before running the fine-tuning/training code.
 ```
 Base Model Memory Footprint in VRAM: 26966.1562 MB
 --------------------------------------
@@ -346,7 +359,7 @@ bnb_config = BitsAndBytesConfig(
 base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
-- Load the model into VRAM before running the fine-tuning/training process. Here's the result:
+- Below shows the outcome after loading the model into the VRAM before running the fine-tuning/training code.
 ```
 Base Model Memory Footprint in VRAM: 4843.0781 MB
 --------------------------------------
@@ -384,7 +397,7 @@ torch.float32, 7069.0161 M, 100.00 %
 <img width="973" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/21e7c7a3-3e50-40b4-a807-75d6a61ed3ab"><br>
 
 
-- Run inference on the fine-tuned/merged model:
+- Run inference on the fine-tuned/merged model and check the result:
 
 ```
 --------------------------------------
@@ -424,7 +437,7 @@ torch.float16, 1028.1124 M, 100.00 %
 <img width="1060" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/1d2cb609-df98-4b62-81d9-200f65ba68d3">
 
 
-- Run inference on the quantized model:
+- Run inference on the quantized model and check the result:
 ```
 --------------------------------------
 Prompt:
@@ -474,7 +487,7 @@ use_cuda_fp16: true
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load model into VRAM before running the fine-tuning/training process. Here's the result:
+- Below shows the outcome after loading the model into the VRAM before running the fine-tuning/training code.
 ```
 Base Model Memory Footprint in VRAM: 26404.2729 MB
 --------------------------------------
@@ -505,7 +518,7 @@ bnb_config = BitsAndBytesConfig(
 base_model = AutoModelForCausalLM.from_pretrained(base_model, quantization_config=bnb_config, use_cache = False, device_map=device_map)
 ```
 
-- Load the model into VRAM before running the fine-tuning/training process. Here's the result:
+- Below shows the outcome after loading the model into the VRAM before running the fine-tuning/training code.
 ```
 Base Model Memory Footprint in VRAM: 6883.1384 MB
 --------------------------------------
@@ -566,7 +579,7 @@ torch.float32, 6921.7207 M, 100.00 %
 <img width="974" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/2a411f32-4220-4b90-a1ab-4df1db8c4c8d"><br>
 
 
-- Run inference on the fine-tuned/merged model and the base model:
+- Run inference on the fine-tuned/merged model and the base model, compare the results.
 
 ```
 --------------------------------------
@@ -613,7 +626,7 @@ torch.float16, 295.7690 M, 100.00 %
 <img width="976" alt="image" src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/assets/35444414/b4eedd48-fa3d-48a5-bf88-863975f58438">
 
 
-- Run inference on the quantized model:
+- Run inference on the quantized model and check the result:
 ```
 --------------------------------------
 Prompt:
@@ -683,7 +696,7 @@ vocab_size: 65024
 base_model = AutoModelForCausalLM.from_pretrained(base_model, use_cache = False, device_map=device_map)
 ```
 
-- Load the model in the VRAM before running the fine-tuning/training process. Here's the result:
+- Below shows the outcome after loading the model into the VRAM before running the fine-tuning/training code.
 ```
 Base Model Memory Footprint in VRAM: 3937.0859 MB
 --------------------------------------
@@ -746,7 +759,7 @@ port,,vt,(vt((var(,st#
 ### <a name="toc_18"></a>8. Bonus: Use Custom Gradio for Inference
 
 - In CML session, execute this Jupyter code [gradio_infer.ipynb](gradio_infer.ipynb) to run inference on a specific model using the custom Gradio interface.
-- This Gradio interface is designed to compare the inference results between the base model and the fine-tuned/trained model.
+- This Gradio interface is designed to compare the inference results between the base model and the fine-tuned/merged model.
 - It also displays the GPU memory status after loading the selected model successfully. User experience is depicted below.
 
 <p align="left"><img src="https://github.com/dennislee22/FT-Merge-Quantize-Infer-CML/blob/main/images/gradio_infer.gif" width="700"></p>
